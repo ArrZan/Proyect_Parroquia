@@ -10,8 +10,8 @@ class Provincias(models.Model):
         return self.nombre
 
 
-class Ciudades(models.Model):
-    nombre = models.CharField(verbose_name="Ciudades", max_length=50)
+class Canton(models.Model):
+    nombre = models.CharField(verbose_name="Canton", max_length=50)
     provincia = models.ForeignKey(Provincias, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -20,7 +20,7 @@ class Ciudades(models.Model):
 
 class Parroquias(models.Model):
     nombre = models.CharField(verbose_name="Parroquia", max_length=150)
-    ciudad = models.ForeignKey(Ciudades, on_delete=models.PROTECT)
+    canton = models.ForeignKey(Canton, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.nombre
@@ -40,7 +40,7 @@ class Personas(models.Model):
     celular = models.CharField(max_length=10, unique=True)
     estado_civil = models.ForeignKey(EstadoCivil, on_delete=models.PROTECT)
     tutor = models.BooleanField(default=False)
-    papel_familiar = models.CharField(max_length=1) #puede ser p = padre o m = madre
+    papel_familiar = models.CharField(max_length=1)  # puede ser p = padre o m = madre
 
     def __str__(self):
         return self.nombres
@@ -66,7 +66,7 @@ class Niños(models.Model):
     cedula = models.CharField(max_length=10, unique=True)
     fecha_nac = models.DateTimeField()
     colegio = models.CharField(max_length=50)
-    año_lectivo = models.IntegerField()
+    año_lectivo = models.CharField(max_length=6)
 
     def __str__(self):
         return self.nombre

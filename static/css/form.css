@@ -20,16 +20,16 @@
     flex-flow: nowrap;
     justify-content: space-between;
     align-items: center;
-    width: 300%;
+    width: 400%;
     padding: 20px;
 
     transition: all .5s ease;
-    transform: translateX(0%);
+    transform: translateX(-25%);
 
 }
 
 .carrusel .item {
-    width: calc((100% / 3) - 2em);
+    width: calc((100% / 4) - 2em);
     min-height: 10vh;
     background-color: var(--color-prim);
 }

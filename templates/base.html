@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="{% static 'css/form.css' %}">
     {% endblock %}
     <script defer src="{% static 'js/form.js' %}"></script>
+    <script defer src="{% static 'js/selectCanton.js' %}"></script>
 </head>
 <body>
 <header>
@@ -42,8 +43,6 @@
 </header>
 
 {% block main %}
-
-
 
 
     <div class="container-xxl mt-3 my-md-4 text-center">
@@ -60,16 +59,15 @@
                 <form action="." method="POST" class="d-flex justify-content-center">
                     {% csrf_token %}
                     <div class="carrusel">
+                        <div class="col py-1 text-center"><h3>FORMULARIO DE INSCRIPCIÓN</h3></div>
+                        <div class="border border-1"></div>
                         <div class="grande">
 
-
                             <div class="item">
-                                <div class="col py-1 text-center"><h3>FORMULARIO DE INSCRIPCIÓN</h3></div>
-                                <div class="col py-1 text-center">Datos del Niño</div>
-                                <div class="border border-1 my-3"></div>
+                                <div class="col py-1 text-center mb-2"><h5>Datos del Niño</h5></div>
                                 <div class="row row-cols-1 row-cols-lg-2">
                                     <div class="col">
-                                        <div class="form-floating mb-3">
+                                        <div class="form-floating my-2">
                                             <input type="text" class="form-control" id="floatingInput" name="nombres"
                                                    autofocus=""
                                                    autocapitalize="none" autocomplete="nombres"
@@ -78,59 +76,144 @@
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="form-floating mb-3">
+                                        <div class="form-floating my-2">
                                             <input type="text" class="form-control" id="floatingInput" name="apellidos"
                                                    autocapitalize="none" autocomplete="apellidos"
                                                    maxlength="75" required="" placeholder="Apellidos">
                                             <label for="floatingInput">Apellidos</label>
                                         </div>
                                     </div>
-                                    <div class="col d-flex align-items-center mb-3">
+                                    <div class="col d-flex align-items-center my-2">
                                         <label class="text-start" for="">Fecha de Nacimiento</label>
                                         <input type="date" name="fecha" class="form-control p-3" autocomplete="off"
                                                required="" id="id_fecha">
                                     </div>
                                     <div class="col">
-                                        <div class="form-floating mb-3">
+                                        <div class="form-floating my-2">
                                             <input type="text" class="form-control" id="floatingInput" name="cedula"
                                                    autocapitalize="none" autocomplete="cedula"
                                                    maxlength="10" required="" placeholder="Cedula">
                                             <label for="floatingInput">Cédula</label>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="accordion accordion-flush" id="accordionFlushExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="flush-headingOne">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                                    aria-expanded="false" aria-controls="flush-collapseOne">
-                                                Accordion Item #1
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                             aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                            <div class="accordion-body">Placeholder content for this accordion, which is
-                                                intended to demonstrate the <code>.accordion-flush</code> class. This is
-                                                the first item's accordion body.
-                                            </div>
+                                    <div class="col">
+                                        <div class="form-floating my-2">
+                                            <input type="text" class="form-control" id="floatingInput" name="colegio"
+                                                   autocapitalize="none" autocomplete="colegio"
+                                                   maxlength="50" required="" placeholder="colegio">
+                                            <label for="floatingInput">Unidad Educativa</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="my-2">
+                                            <select class="form-select" aria-label="Default select example"
+                                                    style="height: 58px">
+                                                <option selected disabled>Curso</option>
+                                                <option value="4">4to - Básica Elemental</option>
+                                                <option value="5">5to - Básica Media</option>
+                                                <option value="6">6to - Básica Media</option>
+                                                <option value="7">7mo - Básica Media</option>
+                                                <option value="8">8vo - Básica Superior</option>
+                                                <option value="9">9no - Básica Superior</option>
+                                                <option value="10">10mo - Básica Superior</option>
+                                                <option value="1">1ro - Bachillerato</option>
+                                                <option value="2">2do - Bachillerato</option>
+                                                <option value="3">3ro - Bachillerato</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="d-flex justify-content-center">
+                            </div>
+
+
+                            <div class="item">
+                                <div class="col py-1 text-center mb-2"><h5>Fe de Bautismo</h5></div>
+                                <div class="row row-cols-1 row-cols-lg-2">
+                                    <div class="col">
+                                        <div class="my-2">
+                                            <select class="form-select provincia" aria-label="Default select example"
+                                                    style="height: 58px">
+                                                <option value="0" selected>Escoja la Provincia</option>
+                                                {% for provincia in provincias %}
+                                                    <option value="{{ provincia.id }}">{{ provincia.nombre.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="my-2">
+                                            <select class="form-select canton" disabled aria-label="Default select example"
+                                                    style="height: 58px">
+                                                <option value="0" selected>Escoja el Cantón</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating my-2">
+                                            <input type="text" class="form-control" id="floatingInput" name="parroquia"
+                                                   autofocus=""
+                                                   autocapitalize="none" autocomplete="parroquia"
+                                                   maxlength="75" required="" placeholder="parroquia">
+                                            <label for="floatingInput">Parroquia de bautizo</label>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex align-items-center my-2">
+                                        <label class="text-start" for="">Fecha de Bautizo</label>
+                                        <input type="date" name="fecha_Baut" class="form-control p-3" autocomplete="off"
+                                               required="" id="id_fecha">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-4 form-floating my-2">
+                                                <input type="text" class="form-control" id="floatingInput" name="tomo"
+                                                       autocapitalize="none" autocomplete="tomo"
+                                                       maxlength="50" required="" placeholder="tomo">
+                                                <label for="floatingInput" class="ms-2">Tomo</label>
+                                            </div>
+                                            <div class="col-4 form-floating my-2">
+                                                <input type="text" ondrop="return false;" onpaste="return false;"
+                                                       onkeypress="return event.charCode>=48 && event.charCode<=57"
+                                                       required
+                                                       class="form-control" id="floatingInput" name="pagina"
+                                                       autocapitalize="none" autocomplete="pagina"
+                                                       maxlength="50" required="" placeholder="pagina">
+                                                <label for="floatingInput" class="ms-2">Pagina</label>
+                                            </div>
+                                            <div class="col-4 form-floating my-2">
+                                                <input type="text" ondrop="return false;" onpaste="return false;"
+                                                       onkeypress="return event.charCode>=48 && event.charCode<=57"
+                                                       required
+                                                       class="form-control" id="floatingInput" name="acta"
+                                                       autocapitalize="none" autocomplete="acta"
+                                                       maxlength="50" required="" placeholder="acta">
+                                                <label for="floatingInput" class="ms-2">Acta</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 d-flex align-items-center justify-content-center">
+                                        <label>Registro Parroquial</label>
+                                    </div>
+
+                                    <div class="col-8 d-flex align-items-center">
+                                        <div class="form-control my-2">
+                                            <input type="file" name="archivosubido">
+                                        </div>
+                                    </div>
 
                                 </div>
-                            </div>
-
-
-                            <div class="item">
 
                             </div>
 
 
                             <div class="item">
+                                <div class="col py-1 text-center mb-2"><h5>Datos de los Padres</h5></div>
+
+                            </div>
+
+                            <div class="item">
+                                <div class="col py-1 text-center mb-2"><h5>Nivel de catequesis</h5></div>
 
                             </div>
 
@@ -147,6 +230,9 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        var listCanton = {{ cantones|safe }}
+    </script>
 
 {% endblock %}
 {##}

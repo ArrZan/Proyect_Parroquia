@@ -6,12 +6,12 @@ let oper = 0
 
 function visibles() {
     if (pos == 1) {
-        back.setAttribute('disabled','true')
+        back.setAttribute('disabled', 'true')
     } else {
         back.removeAttribute('disabled')
     }
 
-    if (pos == 3) {
+    if (pos == 4) {
         next.setAttribute('disabled', 'true')
     } else {
         next.removeAttribute('disabled')
@@ -20,30 +20,15 @@ function visibles() {
 }
 
 next.addEventListener('click', () => {
-    oper = pos * -33.33
+    oper = pos * - 25
     grande.style.transform = `translateX(${oper}%)`
     pos += 1
-visibles()
+    visibles()
 })
 
 back.addEventListener('click', () => {
-    oper = oper + 33.33
+    oper = oper + 25
     grande.style.transform = `translateX(${oper}%)`
     pos -= 1
-visibles()
+    visibles()
 })
-
-
-// puntos.forEach((item, i)=>{
-//     item.addEventListener('click',()=>{
-//         let pos = i
-//         let oper = pos * -33.33
-//
-//         grande.style.transform = `translateX(${oper}%)`
-//
-//         puntos.forEach((item)=>{
-//             item.classList.remove('activo')
-//         })
-//             puntos[pos].classList.add('activo')
-//     })
-// })

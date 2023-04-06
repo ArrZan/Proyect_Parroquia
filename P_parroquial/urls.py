@@ -4,11 +4,11 @@ from django.urls import path
 
 from P_parroquial import settings
 
-from Inscripcion.views import InicioTemplateView
+from Inscripcion.views import InscripcionCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', InicioTemplateView.as_view(), name='inicio'),
+    path('', InscripcionCreateView.as_view(), name='inscripcion'),
 
 ]
 
