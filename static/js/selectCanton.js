@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", evt => {
 
             } else {
                 $slcCanton.setAttribute('disabled', 'true');
+                $slcCanton.innerHTML = '';
+                $slcCanton.innerHTML = '<option value="0" selected>Escoja el Cantón</option>'
             }
         }
     })
