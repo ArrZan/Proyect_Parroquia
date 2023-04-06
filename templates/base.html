@@ -20,13 +20,18 @@
             src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous"></script>
+
+    {#    Iconos fontawesome#}
+    <script src="https://kit.fontawesome.com/5ef07619d3.js" crossorigin="anonymous"></script>
+
     {#    Icono del sistema#}
     <link rel="icon" href="{% static 'img/icono/logo.ico' %}">
 
     {% block headcss %}
         <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'css/form.css' %}">
     {% endblock %}
-
+    <script defer src="{% static 'js/form.js' %}"></script>
 </head>
 <body>
 <header>
@@ -45,60 +50,98 @@
         <div class="row row-cols-1 row-cols-lg-2 g-2 g-lg-3 align-items-center">
 
             <div class="col">
-                <img src="{% static 'img/logo.png' %}" class="rounded" alt="ImagenSanMartinParres" style="width: 450px">
+                <img src="{% static 'img/j.png' %}" class="rounded img-fluid" alt="ImagenSanMartinParres"
+                     style="width: 65%">
                 {# Aquí colocaremos el alerts #}
                 <div class="pe-5 col-6" id="liveAlertPlaceholder"></div>
             </div>
 
             <div class="col">
-                <form action="."
-                      class="border p-3 form bg-white shadow rounded"
-                      method="POST">
+                <form action="." method="POST" class="d-flex justify-content-center">
                     {% csrf_token %}
-                    <div class="col py-1 text-center"><h3>FORMULARIO DE INSCRIPCIÓN</h3></div>
-                    <div class="border border-1 my-3"></div>
-                    <div class="row row-cols-1 row-cols-lg-2">
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" name="nombres" autofocus=""
-                                       autocapitalize="none" autocomplete="nombres"
-                                       maxlength="75" required="" placeholder="Nombres">
-                                <label for="floatingInput">Nombres</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" name="apellidos"
-                                       autocapitalize="none" autocomplete="apellidos"
-                                       maxlength="75" required="" placeholder="Apellidos">
-                                <label for="floatingInput">Apellidos</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <input type="date" name="fecha" class="form-control p-3" autocomplete="off"
-                                   required="" id="id_fecha">
-                        </div>
-                        <div class="col">
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" name="cedula"
-                                       autocapitalize="none" autocomplete="cedula"
-                                       maxlength="10" required="" placeholder="Cedula">
-                                <label for="floatingInput">Cédula</label>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="carrusel">
+                        <div class="grande">
 
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary col-9 offset-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                      d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-                                <path fill-rule="evenodd"
-                                      d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                            </svg>
-                            Registrar
-                        </button>
+
+                            <div class="item">
+                                <div class="col py-1 text-center"><h3>FORMULARIO DE INSCRIPCIÓN</h3></div>
+                                <div class="col py-1 text-center">Datos del Niño</div>
+                                <div class="border border-1 my-3"></div>
+                                <div class="row row-cols-1 row-cols-lg-2">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInput" name="nombres"
+                                                   autofocus=""
+                                                   autocapitalize="none" autocomplete="nombres"
+                                                   maxlength="75" required="" placeholder="Nombres">
+                                            <label for="floatingInput">Nombres</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInput" name="apellidos"
+                                                   autocapitalize="none" autocomplete="apellidos"
+                                                   maxlength="75" required="" placeholder="Apellidos">
+                                            <label for="floatingInput">Apellidos</label>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex align-items-center mb-3">
+                                        <label class="text-start" for="">Fecha de Nacimiento</label>
+                                        <input type="date" name="fecha" class="form-control p-3" autocomplete="off"
+                                               required="" id="id_fecha">
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInput" name="cedula"
+                                                   autocapitalize="none" autocomplete="cedula"
+                                                   maxlength="10" required="" placeholder="Cedula">
+                                            <label for="floatingInput">Cédula</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="flush-headingOne">
+                                            <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                                    aria-expanded="false" aria-controls="flush-collapseOne">
+                                                Accordion Item #1
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                             aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">Placeholder content for this accordion, which is
+                                                intended to demonstrate the <code>.accordion-flush</code> class. This is
+                                                the first item's accordion body.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+
+                                </div>
+                            </div>
+
+
+                            <div class="item">
+
+                            </div>
+
+
+                            <div class="item">
+
+                            </div>
+
+                        </div>
+                        <div class="buttons">
+                            <button class="btn back" type="button" disabled>Atrás</button>
+                            <button class="btn next" type="button">Siguiente</button>
+                            <button class="btn btn-success register" type="submit" disabled>Registrar</button>
+
+                        </div>
+
                     </div>
                 </form>
             </div>

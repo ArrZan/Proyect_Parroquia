@@ -1,0 +1,68 @@
+:root {
+    --color-prim: #E8E8E8;
+    --color-sec: #C3C3C3;
+    --color-acept: #509675;
+    --shadow-con: 7px 7px 18px;
+}
+
+.carrusel {
+    width: 90%;
+    padding: 1em;
+    overflow: hidden;
+    border-radius: 15px;
+    background-color: var(--color-prim);
+    box-shadow: var(--shadow-con) var(--color-sec);
+
+}
+
+.carrusel .grande {
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 300%;
+    padding: 20px;
+
+    transition: all .5s ease;
+    transform: translateX(0%);
+
+}
+
+.carrusel .item {
+    width: calc((100% / 3) - 2em);
+    min-height: 10vh;
+    background-color: var(--color-prim);
+}
+
+.carrusel .puntos {
+    width: 100%;
+    padding: .4em;
+    margin: 10px 0;
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: center;
+    align-items: center;
+    list-style: none
+}
+
+.carrusel .punto {
+    width: 2em;
+    height: 2em;
+    margin: 1em 1em 0;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: var(--color-prim);
+    box-shadow: var(--shadow-con) var(--color-sec);
+}
+
+.btn {
+    margin: 0 10px;
+    background-color: var(--color-prim);
+    box-shadow: var(--shadow-con) var(--color-sec);
+}
+
+
+.carrusel .punto.activo {
+    background-color: orange;
+}
+
