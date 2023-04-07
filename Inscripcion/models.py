@@ -26,20 +26,14 @@ class Parroquias(models.Model):
         return self.nombre
 
 
-class EstadoCivil(models.Model):
-    estado = models.CharField(max_length=25)
-
-    def __str__(self):
-        return self.estado
-
-
 class Personas(models.Model):
     nombres = models.CharField(max_length=75)
     apellidos = models.CharField(max_length=75)
     cedula = models.CharField(max_length=10, unique=True)
     celular = models.CharField(max_length=10, unique=True)
-    estado_civil = models.ForeignKey(EstadoCivil, on_delete=models.PROTECT)
+    estado_civil = models.CharField(max_length=1)
     tutor = models.BooleanField(default=False)
+    num_hijos = models.IntegerField(default=0)
     papel_familiar = models.CharField(max_length=1)  # puede ser p = padre o m = madre
 
     def __str__(self):
@@ -63,6 +57,7 @@ class Catequista(models.Model):
 class Niños(models.Model):
     nombres = models.CharField(max_length=75)
     apellidos = models.CharField(max_length=75)
+    edad = models.IntegerField(default=0)
     cedula = models.CharField(max_length=10, unique=True)
     fecha_nac = models.DateTimeField()
     colegio = models.CharField(max_length=50)
