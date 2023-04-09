@@ -234,8 +234,6 @@
     border-radius: 50px;
     transition: 1s ease;
     font-size: 22px;
-    cursor: pointer;
-
 }
 
 #fecha_nac label {
@@ -269,7 +267,7 @@
     border: 1px solid var(--color-error);
 }
 
-.error-control label {
+.error-control#fecha_nac label, .error-control#fecha_Baut label {
     color: var(--color-error);
 }
 

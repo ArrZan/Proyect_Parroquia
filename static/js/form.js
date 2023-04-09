@@ -29,7 +29,7 @@ const inputs = document.querySelectorAll('#formulario .datos')
 const items = document.querySelectorAll('#formulario .item')
 const itemsFiltrados = filtroDeItemPregunta()
 let contenedorPadre, messageEscogido;
-let fe_bautizo = false;
+let fe_bautizo = 3; // 0 significa que no se bautizó, 1 que si, 2 que no escogió respuesta y 3 que si escogió
 // let niños, fe_bautizo_pregunta, fe_bautizo, padres, num_hijos, nivel_catequista;
 
 //Se pone tabindex en -1 para evitar el movimiento entre inputs con tab del teclado
@@ -68,37 +68,40 @@ function visiblesButtons() {
     }
 }
 
-function avance_items(item, index, pos_item, bandera) { //
-    if (index + 1 == pos_item) {
+function mostrarItems(item, index, pos_item, bandera) { // Aquí
+    if (index == pos_item) {
         if (bandera == "avanzo") {
-            console.log("avanzó")
+            console.log("se mostró")
+            console.log("item a ocultar", itemsFiltrados[index - 2])
+            console.log("item a mostrar", item)
             item.classList.add('mostrando')
-            itemsFiltrados[index - 1].classList.remove('mostrando')
-            console.log(itemsFiltrados[index - 1])
+            itemsFiltrados[index - 2].classList.remove('mostrando')
         }
 
         if (bandera == "retrocedo") {
-            console.log("retrocedió")
+            console.log("se ocultó")
+            console.log("item a ocultar", itemsFiltrados[index] - 2)
+            console.log("item a mostrar", item)
             item.classList.add('mostrando')
-            itemsFiltrados[index + 1].classList.remove('mostrando')
-            console.log(itemsFiltrados[index + 1])
+            itemsFiltrados[index + 2].classList.remove('mostrando')
         }
-    } else {
-        console.log('nunca entró')
     }
 }
 
-function mostrar_items(pos_item, bandera, completado = "") { // Como dice, muestra los items
+function iteradorItems(pos_item, bandera, completado = "") { // Como dice, muestra el item a rellenar
+    console.log("reset", pos_item, ":pos enviado", pos, ":pos guardado")
     itemsFiltrados.forEach((item, index) => {
         if (item.className != "item fe_bautizo") {
-            avance_items(item, index, pos_item, bandera)
+            mostrarItems(item, index + 1, pos_item, bandera)
         } else {
-            console.log('es bautizo')
+            if (fe_bautizo == 3 && pos == 2) {
+                console.log('No mostrará nada por que es bautizo con 3')
+            }
         }
     })
 }
 
-const comprobacion_Items = (pos) => {
+const comprobacionItems = (pos) => {
     if (pos == 1) {
         console.log('Es el item de bautizo')
         return true
@@ -108,6 +111,7 @@ const comprobacion_Items = (pos) => {
     let numItems = contenidoItem.length, //numero de datos a rellenar por item
         contadorCompletados = 0,
         contadorNoCompletados; // contador para los datos con correcto-control
+    numItems = pos == 2 ? numItems - 2 : numItems; // Como tiene dos check de tutor, se los resta y en otra parte se los valida
     contenidoItem.forEach((item) => {
         let listaClases = Object.values(item.children[0].classList)
         if (listaClases.find(element => element == "correcto-control") == "correcto-control") {
@@ -126,56 +130,61 @@ const comprobacion_Items = (pos) => {
 
 }
 
-function calcAvance(avance) { // Calcula el porcentaje a mover el contenedor de items y así mismo lo desplaza
-    if (avance) {
-        porcentaje += (100 / num_items)
-        prog_bar.style.width = `${porcentaje.toString()}%`
-        oper = pos * -(100 / num_items)
-        grande.style.transform = `translateX(${oper}%)`
-        pos += 1
+function desplazoItems(avance) { // Calcula el translateX a mover el contenedor de items(grande) y así mismo lo desplaza
+    if (pos == 2 && avance) {
+        document.querySelector('.aviso2').classList.add('mostrar')
+        console.log('No se desplazará')
     } else {
-        porcentaje -= (100 / num_items)
-        prog_bar.style.width = `${porcentaje.toString()}%`
-        oper = oper + (100 / num_items)
-        grande.style.transform = `translateX(${oper}%)`
-        pos -= 1
+        if (avance) { // desplazo por avance (true)
+            porcentaje += (100 / num_items)
+            prog_bar.style.width = `${porcentaje.toString()}%`
+            oper = pos * -(100 / num_items)
+            grande.style.transform = `translateX(${oper}%)`
+            pos += 1
+        } else { // desplazo por retroceso (false)
+            porcentaje -= (100 / num_items)
+            prog_bar.style.width = `${porcentaje.toString()}%`
+            oper = oper + (100 / num_items)
+            grande.style.transform = `translateX(${oper}%)`
+            pos -= 1
+        }
     }
-
 }
 
 // Para el nivel de porcentaje cada que se de en siguiente
 next.addEventListener('click', () => {
-    if (comprobacion_Items(pos - 1)) {
-        if (pos != 2) {
-            calcAvance(true)
-            mostrar_items(pos, "avanzo")
+    if (comprobacionItems(pos - 1)) {
+
+        if (pos != 1) {
+            console.log("No es el item de bautizo")
+            desplazoItems(true)
+            iteradorItems(pos, "avanzo")
             visiblesButtons()
         } else {
-            if (document.querySelector('.btn_yes').className == "btn btn-outline-success btn_yes" &&
-                document.querySelector('.btn_no').className == "btn btn-outline-danger btn_no") {
-                document.querySelector('.aviso2').classList.add('mostrar')
-            } else {
-                document.querySelector('.aviso2').classList.remove('mostrar')
-                if (!fe_bautizo) {
-                    console.log('si se bautizó')
-                    calcAvance(true)
-                    mostrar_items(pos, "avanzo")
-                    visiblesButtons()
-                } else {
-                    console.log('No se bautizó')
-                    calcAvance(true)
-                    mostrar_items(pos, "avanzo")
-                    visiblesButtons()
-                }
+            document.querySelector('.aviso2').classList.remove('mostrar')
+            if (fe_bautizo == 1) { // REVISAR
+                console.log('si se bautizó')
+                desplazoItems(true)
+                iteradorItems(pos, "avanzo")
+                visiblesButtons()
+            } else if (fe_bautizo == 0) {
+                console.log('No se bautizó')
+                desplazoItems(true)
+                iteradorItems(pos, "avanzo")
+                visiblesButtons()
+            } else if (fe_bautizo == 3 && pos == 1) {
+                console.log('No ha escogido respuesta', pos)
+                desplazoItems(true)
+                iteradorItems(pos, "avanzo")
+                visiblesButtons()
             }
         }
         // && document.querySelector('.btn_no').className != "btn btn-outline-success btn_no"
-
-
     }
-    //
+
+
     // if (pos == 2 && fe_bautizo) {
-    //     calcAvance(true)
+    //     desplazoItems(true)
     // } else {
     //     if (pos == 2 && !fe_bautizo) {
     //         if (document.querySelector('.btn_yes').className != "btn btn-outline-success btn_yes" ||
@@ -183,12 +192,12 @@ next.addEventListener('click', () => {
     //             document.querySelector('.aviso2').classList.add('mostrar')
     //         } else {
     //             document.querySelector('.aviso2').classList.remove('mostrar')
-    //             calcAvance(true)
+    //             desplazoItems(true)
     //         }
     //     } else {
-    //         if (comprobacion_Items(pos - 1)) {
-    //             calcAvance(true)
-    //             mostrar_items(pos, "avanzo")
+    //         if (comprobacionItems(pos - 1)) {
+    //             desplazoItems(true)
+    //             iteradorItems(pos, "avanzo")
     //             visiblesButtons()
     //         }
     //     }
@@ -198,8 +207,8 @@ next.addEventListener('click', () => {
 })
 // Para el nivel de porcentaje cada que se de atrás
 back.addEventListener('click', () => {
-    calcAvance(false)
-    mostrar_items(pos, "retrocedo")
+    desplazoItems(false)
+    iteradorItems(pos, "retrocedo")
     visiblesButtons()
 })
 
@@ -350,7 +359,7 @@ const validForm = (e) => {
             if (e.target.value) {
                 if (!/^\d+$/.test(e.target.value)) {
                     validField(expresiones.numRoman, e.target, 'tomo')
-                    tomo = convertirRomanoAEntero(e.target.value) ///REVISAR
+                    tomo = convertirRomanoAEntero(e.target.value)
                 } else {
                     validField(expresiones.numeros, e.target, 'tomo')
                     tomo = parseInt(e.target.value)
@@ -500,7 +509,7 @@ formulario.addEventListener('submit', (e) => {
 
 document.addEventListener('click', (e) => {
     if (e.target.matches('.btn_yes')) {
-        fe_bautizo = false
+        fe_bautizo = 1
         document.querySelector('.btn_yes').classList.add('activo')
         document.querySelector('.btn_yes2').classList.add('activo')
         document.querySelector('.btn_no').classList.remove('activo')
@@ -513,9 +522,9 @@ document.addEventListener('click', (e) => {
         document.querySelector('.btn_yes').classList.remove('activo')
         document.querySelector('.btn_no').classList.add('activo')
         document.querySelector('.aviso2').classList.remove('mostrar')
-        calcAvance(true) //mandamos true porque vamos al siguiente item
-        mostrar_items(pos, "avanzo")
-        fe_bautizo = true
+        desplazoItems(true) //mandamos true porque vamos al siguiente item
+        iteradorItems(pos, "avanzo")
+        fe_bautizo = 0
         visiblesButtons()
     }
 
@@ -525,14 +534,14 @@ document.addEventListener('click', (e) => {
     //     document.querySelector('.fe_bautizo').classList.add('mostrando')
     // }
     if (e.target.matches('.btn_no2')) {
-        calcAvance(true) //mandamos true porque vamos al siguiente item
-        fe_bautizo = true
+        desplazoItems(true) //mandamos true porque vamos al siguiente item
+        fe_bautizo = 0
         document.querySelector('.btn_no').classList.add('activo')
         document.querySelector('.btn_yes').classList.remove('activo')
         document.querySelector('.fe_bautizo_pregunta').classList.add('mostrando')
         document.querySelector('.fe_bautizo').classList.remove('mostrando')
         document.querySelector('.aviso2').classList.remove('mostrar')
-        // mostrar_items(pos, "avanzo")
+        iteradorItems(pos, "avanzo")
         visiblesButtons()
     }
 })
