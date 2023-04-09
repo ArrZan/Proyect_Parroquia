@@ -20,7 +20,8 @@ class Canton(models.Model):
 
 class Parroquias(models.Model):
     nombre = models.CharField(verbose_name="Parroquia", max_length=150)
-    canton = models.ForeignKey(Canton, on_delete=models.PROTECT)
+    provincia = models.ForeignKey(Provincias, on_delete=models.PROTECT, null=True)
+    canton = models.ForeignKey(Canton, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.nombre
@@ -68,14 +69,14 @@ class Niños(models.Model):
 
 
 class Bautizos(models.Model):
-    fecha_Baut = models.DateTimeField()
+    fecha_Baut = models.DateTimeField(null=True)
     registro_Parroq = models.FileField(upload_to='archivos/', null=True)
-    tomo = models.CharField(verbose_name="Tomo", max_length=50)
-    pagina = models.IntegerField(verbose_name="Pagina")
-    acta = models.IntegerField(verbose_name="Acta")
-    observaciones = models.TextField(verbose_name="Observaciones")
+    tomo = models.CharField(verbose_name="Tomo", max_length=50, null=True)
+    pagina = models.IntegerField(verbose_name="Pagina", null=True)
+    acta = models.IntegerField(verbose_name="Acta", null=True)
+    observaciones = models.TextField(verbose_name="Observaciones", null=True)
     niño = models.ForeignKey(Niños, on_delete=models.PROTECT)
-    parroquia = models.ForeignKey(Parroquias, on_delete=models.PROTECT)
+    parroquia = models.ForeignKey(Parroquias, on_delete=models.PROTECT, null=True)
 
     def __str__(self):
         return self.nombre

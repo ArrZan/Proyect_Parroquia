@@ -4,8 +4,26 @@
     --color-btn: #F5F5F5;
     --color-acept: #29BB29;
     --color-error: #bb2929;
+    --color-error-degree: #D8B4B4;
+    --color-info: #0DCAF0;
     --shadow-con: 7px 7px 14px;
+    --animation-desplazo: desplazo 2s ease .5s forwards;
 }
+
+/*Quitar icono a la fecha*/
+.date_input[type="date"]::-webkit-inner-spin-button,
+.date_input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.date_input[type="date"]::-webkit-inner-spin-button,
+.date_input[type="date"]::-webkit-outer-spin-button,
+.date_input[type="date"]::-webkit-clear-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
 
 .carrusel {
     width: 90%;
@@ -14,7 +32,6 @@
     border-radius: 15px;
     background-color: var(--color-prim);
     box-shadow: var(--shadow-con) var(--color-sec);
-
 }
 
 .carrusel .grande {
@@ -24,16 +41,86 @@
     align-items: center;
     width: 500%;
     padding: 4px 20px 10px 20px;
-
-    transition: all .5s ease;
     transform: translateX(0%);
 
+    transition: transform .5s ease;
 }
 
 .carrusel .item {
     width: calc((100% / 5) - 2em);
     min-height: 10vh;
     background-color: var(--color-prim);
+    pointer-events: none;
+    opacity: 0;
+    height: 0;
+}
+
+/*.item.fe_bautizo {*/
+/*    pointer-events: none;*/
+/*    opacity: 0;*/
+/*    height: 0;*/
+/*}*/
+
+.mostrando.item {
+    pointer-events: auto;
+    opacity: 1;
+    height: auto;
+}
+
+.item.fe_bautizo_pregunta {
+    position: absolute;
+    border-radius: 10px;
+    padding: 10px;
+    transform: translateX(105%);
+    z-index: 10;
+    /*margin: 20px;*/
+}
+
+.aviso {
+    background-color: #212529;
+    padding: 10px;
+    border-radius: 5px;
+    color: #FFC107;
+}
+
+.aviso2 {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 2px solid #3E0D0D;
+    background-color: var(--color-error);
+    color: white;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mostrar.aviso2 {
+    opacity: 1;
+}
+
+.message_aviso {
+    position: absolute;
+    top: -49px;
+    width: 400px;
+    padding: 13px;
+    font-size: 1em;
+    border-radius: 4px;
+    background-color: #212529;
+    color: #FFC107;
+    pointer-events: none;
+    opacity: 0;
+
+    transition: opacity .5s ease;
+}
+
+.fa-circle-info:hover + .message_aviso {
+    pointer-events: visible;
+    opacity: 1;
+    transition: opacity .5s ease;
+}
+
+.buttons_check {
+    padding: 10px;
 }
 
 .btn.register {
@@ -45,11 +132,33 @@
     background-color: var(--color-btn);
     box-shadow: var(--shadow-con) var(--color-sec);
 }
+
 .especial {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+}
+
+.fe_bautizo_pregunta2, .buttons_check2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#fe_bautizo_pregunta {
+    display: flex;
+    flex-direction: column;
+}
+
+.activo.btn_yes2, .activo.btn_yes {
+    background-color: #198754;
+    color: white;
+}
+
+.activo.btn_no, .activo.btn_no {
+    background-color: #dc3545;
+    color: white;
 }
 
 .form-error {
@@ -58,20 +167,79 @@
     bottom: 45px;
     width: 22px;
     height: 22px;
-    border-radius: 25px;
-    line-height: 18px;
-    background-color: #fff;
     opacity: 0;
 }
 
+.form-error .message {
+    position: absolute;
+    right: 14px;
+    bottom: 16px;
+    font-size: 1em;
+    z-index: 4;
+    /*height: 0;*/
+    text-align: start;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .5s ease;
+}
+
+.form-error .fa-times-circle:hover + .message {
+    pointer-events: visible;
+    opacity: 1;
+    transition: opacity .5s ease;
+}
+
+.form_info {
+    border-radius: 8px;
+    background-color: var(--color-error);
+    display: flex;
+    padding: 10px 20px;
+    border: 2px solid #3E0D0D;
+    color: white;
+    /*animation: var(--animation-desplazo);*/
+}
+
+
+@keyframes desplazo {
+    from {
+        transform: translateX(150px);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
 .fa-times-circle {
+    position: absolute;
+    right: 0px;
+    z-index: 3;
     color: var(--color-error);
+    background-color: white;
+    border-radius: 50px;
     font-size: 22px;
+    cursor: pointer;
 }
 
 .fa-check-circle {
     color: var(--color-acept);
+    background-color: white;
+    border-radius: 50px;
     font-size: 22px;
+}
+
+.fa-circle-exclamation {
+    color: var(--color-info);
+    background-color: white;
+    border-radius: 50px;
+    transition: 1s ease;
+    font-size: 22px;
+    cursor: pointer;
+
+}
+
+#fecha_nac label {
+    pointer-events: none;
 }
 
 /*------------------- Estilos para Validación ------------------- */
@@ -83,9 +251,19 @@
     border: 1px solid var(--color-acept);
 }
 
+.correcto-control .form-select {
+    border: 1px solid var(--color-acept);
+}
+
+
 .error-control .form-error {
     opacity: 1;
 }
+
+/*.error-control .form-error .message {*/
+/*    pointer-events: visible;*/
+/*    opacity: 1;*/
+/*}*/
 
 .error-control .form-control {
     border: 1px solid var(--color-error);
@@ -104,9 +282,8 @@
 }
 
 .error-control .form-control:focus {
-  box-shadow: 0 0 0 0.25rem rgba(187, 41, 41, 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(187, 41, 41, 0.25);
 }
-
 
 
 /*.form-control,*/

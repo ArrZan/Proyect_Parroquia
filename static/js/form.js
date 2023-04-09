@@ -1,26 +1,60 @@
-const formulario = document.getElementById('formulario');
-const inputs = document.querySelectorAll('#formulario input')
-const selects = document.querySelectorAll('#formulario select')
+'use strict'
 
 const expresiones = {
     nombres: /^[a-zA-ZÀ-ÿ\s]{1,75}$/, // Letras y espacios, pueden llevar acentos.
-    colegio: /^[a-zA-ZÀ-ÿ\s\d\_\-]{1,50}$/, // Letras, números, espacios,  guion, guion_bajo  pueden llevar acentos
-    parroquia: /^[a-zA-ZÀ-ÿ\s\d\_\-]{1,150}$/, // Letras, números, espacios,  guion, guion_bajo  pueden llevar acentos
-    password: /^.{4,12}$/, // 4 a 12 digitos.
-    numerosCelTelf: /^\d{10}$/, // 10 numeros.
-    numHij: /^\d{1,2}$/ // 2 numeros.
+    colegio: /^[a-zA-ZÀ-ÿ\s\d\-]{4,50}$/, // Letras, números, espacios,  guion, guion_bajo, pueden llevar acentos 1-50
+    numRoman: /^M?M?M?(CM|CD|D?C?C?C?)(XC|XL|L?X?X?X?)(IX|IV|V?I?I?I?)$/,
+    //Valida el ingreso de números romanos
+    parroquia: /^[a-zA-ZÀ-ÿ\s\d\-]{4,150}$/, // Letras, números, espacios,  guion, guion_bajo, pueden llevar acentos 1-150
+    numerosTelf: /^([09]){2}\d{8}$/, // Que empiece con 09 y siga con 8 numeros.
+    numerosCedu: /^\d{10}$/, // Que empiece con 09 y siga con 8 numeros.
+    numHij: /^\d{1,2}$/, // 2 numeros.
+    numeros: /^\d+$/, // 1 o más números.
+    fecha: /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|Oct|Dec)))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2]|(?:Jan|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec))\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)(?:0?2|(?:Feb))\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9]|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep))|(?:1[0-2]|(?:Oct|Nov|Dec)))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+    // fecha valida la fecha
 }
+
+const filtroDeItemPregunta = () => { //FUNCIÓN PARA FILTRAR UN ITEM DE PREGUNTA Y EXCLUIRLO
+    let itemClases = [];
+    Object.values(items).forEach((item) => {
+        if (Object.values(items)[1] != item) {
+            itemClases.push(item)
+        }
+    })
+    return itemClases
+}
+
+const formulario = document.getElementById('formulario');
+const inputs = document.querySelectorAll('#formulario .datos')
+const items = document.querySelectorAll('#formulario .item')
+const itemsFiltrados = filtroDeItemPregunta()
+let contenedorPadre, messageEscogido;
+let fe_bautizo = false;
+// let niños, fe_bautizo_pregunta, fe_bautizo, padres, num_hijos, nivel_catequista;
+
+//Se pone tabindex en -1 para evitar el movimiento entre inputs con tab del teclado
+document.getElementsByName('radios').forEach((item) => { //para los radio
+    item.setAttribute('tabindex', '-1')
+})
+inputs.forEach((item, index) => { //para los inputs
+    Object.values(item.children).forEach((input) => {
+        if (input.localName == 'input' || input.localName == 'select') {
+            input.setAttribute('tabindex', '-1');
+        }
+    })
+})
 
 const grande = document.querySelector('.grande')
 const next = document.querySelector('.next')
 const back = document.querySelector('.back')
 const prog_bar = document.querySelector('.progress-bar')
 let porcentaje = parseInt(prog_bar.style.width)
-let num_items = document.querySelectorAll('.item').length
+let num_items = items.length - 1
 let pos = 1
 let oper = 0
 
-function visibles() {
+// Para deshabilitar y habilitar los botones siguiente y atrás cuando se llega al ultimo item o se están en el primero
+function visiblesButtons() {
     if (pos == 1) {
         back.setAttribute('disabled', 'true')
     } else {
@@ -32,31 +66,260 @@ function visibles() {
     } else {
         next.removeAttribute('disabled')
     }
+}
+
+function avance_items(item, index, pos_item, bandera) { //
+    if (index + 1 == pos_item) {
+        if (bandera == "avanzo") {
+            console.log("avanzó")
+            item.classList.add('mostrando')
+            itemsFiltrados[index - 1].classList.remove('mostrando')
+            console.log(itemsFiltrados[index - 1])
+        }
+
+        if (bandera == "retrocedo") {
+            console.log("retrocedió")
+            item.classList.add('mostrando')
+            itemsFiltrados[index + 1].classList.remove('mostrando')
+            console.log(itemsFiltrados[index + 1])
+        }
+    } else {
+        console.log('nunca entró')
+    }
+}
+
+function mostrar_items(pos_item, bandera, completado = "") { // Como dice, muestra los items
+    itemsFiltrados.forEach((item, index) => {
+        if (item.className != "item fe_bautizo") {
+            avance_items(item, index, pos_item, bandera)
+        } else {
+            console.log('es bautizo')
+        }
+    })
+}
+
+const comprobacion_Items = (pos) => {
+    if (pos == 1) {
+        console.log('Es el item de bautizo')
+        return true
+    }
+    let ItemSelected = itemsFiltrados[pos]
+    let contenidoItem = Object.values(Object.values(ItemSelected.children)[1].children)
+    let numItems = contenidoItem.length, //numero de datos a rellenar por item
+        contadorCompletados = 0,
+        contadorNoCompletados; // contador para los datos con correcto-control
+    contenidoItem.forEach((item) => {
+        let listaClases = Object.values(item.children[0].classList)
+        if (listaClases.find(element => element == "correcto-control") == "correcto-control") {
+            contadorCompletados += 1
+        } else {
+            item.children[0].classList.add('error-control')
+        }
+    })
+    if (contadorCompletados == numItems) {
+        return true
+    } else {
+        alert("Rellene todos los datos y verifique que estén correctos")
+        return false
+    }
+
 
 }
 
+function calcAvance(avance) { // Calcula el porcentaje a mover el contenedor de items y así mismo lo desplaza
+    if (avance) {
+        porcentaje += (100 / num_items)
+        prog_bar.style.width = `${porcentaje.toString()}%`
+        oper = pos * -(100 / num_items)
+        grande.style.transform = `translateX(${oper}%)`
+        pos += 1
+    } else {
+        porcentaje -= (100 / num_items)
+        prog_bar.style.width = `${porcentaje.toString()}%`
+        oper = oper + (100 / num_items)
+        grande.style.transform = `translateX(${oper}%)`
+        pos -= 1
+    }
+
+}
+
+// Para el nivel de porcentaje cada que se de en siguiente
 next.addEventListener('click', () => {
+    if (comprobacion_Items(pos - 1)) {
+        if (pos != 2) {
+            calcAvance(true)
+            mostrar_items(pos, "avanzo")
+            visiblesButtons()
+        } else {
+            if (document.querySelector('.btn_yes').className == "btn btn-outline-success btn_yes" &&
+                document.querySelector('.btn_no').className == "btn btn-outline-danger btn_no") {
+                document.querySelector('.aviso2').classList.add('mostrar')
+            } else {
+                document.querySelector('.aviso2').classList.remove('mostrar')
+                if (!fe_bautizo) {
+                    console.log('si se bautizó')
+                    calcAvance(true)
+                    mostrar_items(pos, "avanzo")
+                    visiblesButtons()
+                } else {
+                    console.log('No se bautizó')
+                    calcAvance(true)
+                    mostrar_items(pos, "avanzo")
+                    visiblesButtons()
+                }
+            }
+        }
+        // && document.querySelector('.btn_no').className != "btn btn-outline-success btn_no"
 
-    porcentaje += (100 / num_items)
-    prog_bar.style.width = `${porcentaje.toString()}%`
-    oper = pos * -(100 / num_items)
-    grande.style.transform = `translateX(${oper}%)`
-    pos += 1
-    visibles()
+
+    }
+    //
+    // if (pos == 2 && fe_bautizo) {
+    //     calcAvance(true)
+    // } else {
+    //     if (pos == 2 && !fe_bautizo) {
+    //         if (document.querySelector('.btn_yes').className != "btn btn-outline-success btn_yes" ||
+    //             document.querySelector('.btn_no').className != "btn btn-outline-success btn_no") {
+    //             document.querySelector('.aviso2').classList.add('mostrar')
+    //         } else {
+    //             document.querySelector('.aviso2').classList.remove('mostrar')
+    //             calcAvance(true)
+    //         }
+    //     } else {
+    //         if (comprobacion_Items(pos - 1)) {
+    //             calcAvance(true)
+    //             mostrar_items(pos, "avanzo")
+    //             visiblesButtons()
+    //         }
+    //     }
+    //
+    // }
+
 })
-
+// Para el nivel de porcentaje cada que se de atrás
 back.addEventListener('click', () => {
-    porcentaje -= (100 / num_items)
-    prog_bar.style.width = `${porcentaje.toString()}%`
-
-    oper = oper + (100 / num_items)
-    grande.style.transform = `translateX(${oper}%)`
-    pos -= 1
-    visibles()
+    calcAvance(false)
+    mostrar_items(pos, "retrocedo")
+    visiblesButtons()
 })
 
+function showIconIncorrect(field) {
+    document.getElementById(`${field}`).classList.add('error-control');
+    document.getElementById(`${field}`).classList.remove('correcto-control');
+    document.querySelector(`#${field} i`).classList.remove('fa-check-circle');
+    document.querySelector(`#${field} i`).classList.add('fa-times-circle');
+}
 
+function hideIconIncorrect(field) {
+    document.getElementById(`${field}`).classList.remove('error-control');
+    document.getElementById(`${field}`).classList.add('correcto-control');
+    document.querySelector(`#${field} i`).classList.add('fa-check-circle');
+    document.querySelector(`#${field} i`).classList.remove('fa-times-circle');
+}
+
+function normalIcon(field) {
+    document.getElementById(`${field}`).classList.remove('error-control');
+    document.getElementById(`${field}`).classList.remove('correcto-control');
+    document.querySelector(`#${field} i`).classList.remove('fa-check-circle');
+    document.querySelector(`#${field} i`).classList.remove('fa-times-circle');
+}
+
+function validDateNac(e, field) { //Validamos el input date de la edad para que no sean menores a 7
+    if (e.target.value && field == 'fecha_nac') {
+        // let fecha_nac = formato(e.target.value)
+        let fecha_nac = e.target.value // Recordar que la fecha_nac está en formato 'yyyy-mm-dd'
+        let separador = /\W/g;
+        const yearNow = new Date();
+        const tiempoMs = Date.parse(yearNow) - Date.parse(fecha_nac);
+        const fechaEdad = Math.trunc(tiempoMs / 1000 / 3600 / 24 / 365)
+        if (fechaEdad > 7) {
+            if (separador.test(fecha_nac)) {
+                hideIconIncorrect(field)
+            } else {
+                showIconIncorrect(field)
+            }
+        } else {
+            showIconIncorrect(field)
+        }
+    } else {
+        showIconIncorrect(field)
+    }
+}
+
+const catchContPadre = (e) => {
+    inputs.forEach((item, index) => {
+        Object.values(item.children).forEach((input) => {
+            if (input == e.target) {
+                contenedorPadre = Object.values(item.children)
+                contenedorPadre.forEach((message) => {
+                    if (message.className == 'form-error') {
+                        // console.log(input)
+                        // console.log(e.target)
+                        let widthMessage = e.target.offsetWidth + 10
+                        messageEscogido = Object.values(message.children)[1]
+                        messageEscogido.style.width = `${widthMessage}px`
+                        // messageEscogido.children[0].style.transform = `translateY(${messageEscogido.children[0].offsetHeight}px)`
+                        // messageEscogido.style.transform = `translateY(${e.target.offsetWidth}px)`
+                        //Le doy el tamaño del input al message
+                    } else {
+
+                    }
+                })
+            } //Aquí doy el tamaño del input exacto que se hace focus o blur al message
+        })
+    })
+}
+
+function convertirCaracterAEntero(caracter) {
+    switch (caracter) {
+        case 'I':
+            return 1;
+        case 'V':
+            return 5;
+        case 'X':
+            return 10;
+        case 'L':
+            return 50;
+        case 'C':
+            return 100;
+        case 'D':
+            return 500;
+        case 'M':
+            return 1000;
+        default:
+            return -1;
+    }
+}
+
+function convertirRomanoAEntero(romano) {
+    if (typeof romano != 'string') {
+        return null;
+    }
+
+    let numero = convertirCaracterAEntero(romano.charAt(0));
+    let anterior;
+    let actual;
+
+    for (let i = 1; i < romano.length; ++i) {
+        actual = convertirCaracterAEntero(romano.charAt(i));
+        anterior = convertirCaracterAEntero(romano.charAt(i - 1));
+
+        if (actual <= anterior) {
+            numero += actual;
+        } else {
+            numero = numero - anterior * 2 + actual;
+        }
+    }
+
+    return numero;
+}
+
+
+//------------------------------------------------------------------Validaciones del formulario
 const validForm = (e) => {
+    contenedorPadre = ''
+    catchContPadre(e) // Aquí capturamos el contenedor padre seleccionado
+
     switch (e.target.name) {
         case "nombres":
             validField(expresiones.nombres, e.target, 'nombres')
@@ -65,40 +328,42 @@ const validForm = (e) => {
             validField(expresiones.nombres, e.target, 'apellidos')
             break;
         case "edad":
-
+            validEdad(expresiones.numHij, e.target, 'edad')
             break;
         case "fecha_nac":
-
+            validDateNac(e, 'fecha_nac')
             break;
         case "cedula":
-            validField(expresiones.numerosCelTelf, e.target, 'cedula')
+            validField(expresiones.numerosCedu, e.target, 'cedula')
             break;
         case "colegio":
             validField(expresiones.colegio, e.target, 'colegio')
             break;
-        case "provincia":
-
-            break;
-        case "canton":
-
-            break;
         case "parroquia":
-            validField(expresiones.parroquia, e.target, 'parroquia')
+            validFieldNo_Obliga(e.target, expresiones.parroquia)
             break;
         case "fecha_Baut":
-
+            validFieldNo_Obliga(e.target)
             break;
         case "tomo":
-            validField(expresiones.nombres, e.target, 'tomo')
+            let tomo;
+            if (e.target.value) {
+                if (!/^\d+$/.test(e.target.value)) {
+                    validField(expresiones.numRoman, e.target, 'tomo')
+                    tomo = convertirRomanoAEntero(e.target.value) ///REVISAR
+                } else {
+                    validField(expresiones.numeros, e.target, 'tomo')
+                    tomo = parseInt(e.target.value)
+                }
+            } else {
+                normalIcon(e.target.name)
+            }
             break;
         case "pagina":
-            validField(expresiones.numerosCelTelf, e.target, 'pagina')
+            validFieldNo_Obliga(e.target, expresiones.numeros)
             break;
         case "acta":
-
-            break;
-        case "archivosubido":
-
+            validFieldNo_Obliga(e.target, expresiones.numeros)
             break;
         case "nom_papa":
             validField(expresiones.nombres, e.target, 'nom_papa')
@@ -107,16 +372,10 @@ const validForm = (e) => {
             validField(expresiones.nombres, e.target, 'ape_papa')
             break;
         case "ced_papa":
-            validField(expresiones.numerosCelTelf, e.target, 'ced_papa')
+            validField(expresiones.numerosCedu, e.target, 'ced_papa')
             break;
         case "cel_papa":
-            validField(expresiones.numerosCelTelf, e.target, 'cel_papa')
-            break;
-        case "estado_civ_pa":
-
-            break;
-        case "radios":
-
+            validField(expresiones.numerosTelf, e.target, 'cel_papa')
             break;
         case "nom_mama":
             validField(expresiones.nombres, e.target, 'nom_mama')
@@ -125,43 +384,155 @@ const validForm = (e) => {
             validField(expresiones.nombres, e.target, 'ape_mama')
             break;
         case "ced_mama":
-            validField(expresiones.numerosCelTelf, e.target, 'ced_mama')
+            validField(expresiones.numerosCedu, e.target, 'ced_mama')
             break;
         case "cel_mama":
-            validField(expresiones.numerosCelTelf, e.target, 'cel_mama')
-            break;
-        case "estado_civ_ma":
-
-            break;
-        case "radios":
-
+            validField(expresiones.numerosTelf, e.target, 'cel_mama')
             break;
         case "num_hijos":
             validField(expresiones.numHij, e.target, 'num_hijos')
+            break;
+        case "catequista":
+            validField(expresiones.nombres, e.target, 'catequista')
             break;
     }
 }
 
 const validField = (expresion, input, field) => {
+    let widthMessage = input.offsetWidth
+    document.querySelector('.message')
     if (expresion.test(input.value)) {
-        document.getElementById(`${field}`).classList.remove('error-control');
-        document.getElementById(`${field}`).classList.add('correcto-control');
-        document.querySelector(`#${field} i`).classList.add('fa-check-circle');
-        document.querySelector(`#${field} i`).classList.remove('fa-times-circle');
+        hideIconIncorrect(field)
+        // messageEscogido.classList.add('--animation-desplazo')
     } else {
-        document.getElementById(`${field}`).classList.add('error-control');
-        document.getElementById(`${field}`).classList.remove('correcto-control');
-        document.querySelector(`#${field} i`).classList.remove('fa-check-circle');
-        document.querySelector(`#${field} i`).classList.add('fa-times-circle');
+        showIconIncorrect(field)
     }
 }
 
-inputs.forEach((input) => {
-    input.addEventListener('keyup', validForm);
-    input.addEventListener('blur', validForm);
+const validNormal = (expresion, e) => {
+    if (expresion.test(e.value)) {
+        hideIconIncorrect(e.name)
+    } else {
+        showIconIncorrect(e.name)
+    }
+}
+
+const validFieldNo_Obliga = (e, expresion = -1) => {
+    if (e.value) {
+        if (expresion == -1) { //No se envió un de regex
+            if (e.name == 'fecha_Baut') {
+                hideIconIncorrect(e.name)
+            } else {
+                if (contenedorPadre[0].options[contenedorPadre[0].selectedIndex].value != 0) {
+                    hideIconIncorrect(e.name)
+                }
+            }
+        } else { // Si se envió un regex
+            validNormal(expresion, e)
+        }
+    } else {
+        normalIcon(e.name)
+    }
+}
+
+
+// ----------------------------------------------------------- Casos puntuales
+const validEdad = (expresion, input, field) => {
+    if (parseInt(input.value) < 8 || !input.value || !expresion.test(input.value)) {
+        showIconIncorrect(field)
+        document.querySelector(`#${field} i`).classList.remove('fa-circle-exclamation');
+    } else {
+        document.getElementById(`${field}`).classList.remove('error-control');
+        document.getElementById(`${field}`).classList.add('correcto-control');
+        if (parseInt(input.value) > 7 && parseInt(input.value) <= 18) {
+            document.querySelector(`#${field} i`).classList.add('fa-check-circle');
+            document.querySelector(`#${field} i`).classList.remove('fa-circle-exclamation');
+            document.querySelector(`#${field} i`).classList.remove('fa-times-circle');
+        } else {
+            document.querySelector(`#${field} i`).classList.add('fa-circle-exclamation');
+            document.querySelector(`#${field} i`).classList.remove('fa-check-circle');
+            document.querySelector(`#${field} i`).classList.remove('fa-times-circle');
+        }
+    }
+}
+
+const validSelect = (e) => {
+    catchContPadre(e)
+    let indice = contenedorPadre[0].selectedIndex
+    let value = contenedorPadre[0].options[indice].value
+    if (e.target.name == "provincia" || e.target.name == "canton") {
+        console.log(e.target)
+        validFieldNo_Obliga(e.target)
+    } else {
+        if (contenedorPadre[0].options[indice].value != 0) {
+            hideIconIncorrect(contenedorPadre[0].name)
+        } else {
+            showIconIncorrect(contenedorPadre[0].name)
+        }
+    }
+
+}
+
+// function formato(texto) {
+//     return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
+// }
+
+
+inputs.forEach((item, index) => {
+    Object.values(item.children).forEach((input) => {
+        if (input.localName == 'input') {
+            input.addEventListener('keyup', validForm);
+            input.addEventListener('blur', validForm);
+            // input.addEventListener('mouseover', showMessage);
+        }
+        if (input.localName == 'select') {
+            input.addEventListener('blur', validSelect)
+            input.addEventListener('change', validSelect)
+        }
+    })
 })
 
 formulario.addEventListener('submit', (e) => {
     e.preventDefault()
 
+})
+
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.btn_yes')) {
+        fe_bautizo = false
+        document.querySelector('.btn_yes').classList.add('activo')
+        document.querySelector('.btn_yes2').classList.add('activo')
+        document.querySelector('.btn_no').classList.remove('activo')
+        document.querySelector('.fe_bautizo_pregunta').classList.remove('mostrando')
+        document.querySelector('.fe_bautizo').classList.add('mostrando')
+        document.querySelector('.aviso2').classList.remove('mostrar')
+
+    }
+    if (e.target.matches('.btn_no')) {
+        document.querySelector('.btn_yes').classList.remove('activo')
+        document.querySelector('.btn_no').classList.add('activo')
+        document.querySelector('.aviso2').classList.remove('mostrar')
+        calcAvance(true) //mandamos true porque vamos al siguiente item
+        mostrar_items(pos, "avanzo")
+        fe_bautizo = true
+        visiblesButtons()
+    }
+
+    // if (e.target.matches('.btn_yes2')) {
+    //     fe_bautizo = false
+    //     document.querySelector('.fe_bautizo_pregunta').classList.remove('mostrando')
+    //     document.querySelector('.fe_bautizo').classList.add('mostrando')
+    // }
+    if (e.target.matches('.btn_no2')) {
+        calcAvance(true) //mandamos true porque vamos al siguiente item
+        fe_bautizo = true
+        document.querySelector('.btn_no').classList.add('activo')
+        document.querySelector('.btn_yes').classList.remove('activo')
+        document.querySelector('.fe_bautizo_pregunta').classList.add('mostrando')
+        document.querySelector('.fe_bautizo').classList.remove('mostrando')
+        document.querySelector('.aviso2').classList.remove('mostrar')
+        // mostrar_items(pos, "avanzo")
+        visiblesButtons()
+    }
 })
