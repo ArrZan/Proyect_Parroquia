@@ -46,632 +46,1284 @@
 
 
     <div class="container-xxl text-center">
-        <div class="row row-cols-1 row-cols-lg-2 g-2 g-lg-3 align-items-center">
 
-            <div class="col">
-                <img src="{% static 'img/j.png' %}" class="rounded img-fluid" alt="ImagenSanMartinParres"
-                     style="width: 65%">
-                {# Aquí colocaremos el alerts #}
-                <div class="pe-5 col-6" id="liveAlertPlaceholder"></div>
-            </div>
+        <div class="accordion" id="accordionExample">
 
-            <div class="col">
-                <form action="." method="POST" id="formulario" class="d-flex justify-content-center"
-                      enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="carrusel">
-                        <div class="col py-1 text-center"><h3>FORMULARIO DE INSCRIPCIÓN</h3></div>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" aria-label="Success example"
-                                 style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button text-center" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Datos del Niño
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="mostrando item niños">
+                            <div class="col py-1 text-center mb-2"><h5>Datos del Niño</h5></div>
+                            <div class="row row-cols-1 row-cols-lg-2">
 
-                        <div class="border border-1"></div>
-                        <div class="grande">
-
-                            <div class="mostrando item niños">
-                                <div class="col py-1 text-center mb-2"><h5>Datos del Niño</h5></div>
-                                <div class="row row-cols-1 row-cols-lg-2">
-
-                                    <div class="col col-lg-4">
-                                        <div class="datos form-floating my-2" id="nombres">
-                                            <input type="text" class="form-control" id="floatingInput" name="nombres"
-                                                   autocomplete="nombres"
-                                                   maxlength="75" required="" placeholder="Nombres">
-                                            <label for="floatingInput">Nombres</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No debe contener números y símbolos, sólo
-                                                        letras(a/Z).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-4">
-                                        <div class="datos form-floating my-2" id="apellidos">
-                                            <input type="text" class="form-control" id="floatingInput" name="apellidos"
-                                                   autocomplete="apellidos"
-                                                   maxlength="75" required="" placeholder="Apellidos">
-                                            <label for="floatingInput">Apellidos</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No debe contener números y símbolos, sólo
-                                                        letras(a/Z).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-4">
-                                        <div class="datos form-floating my-2" id="edad">
-                                            <input type="text"
-                                                   class="form-control" id="floatingInput" name="edad"
-                                                   maxlength="2" required="" placeholder="edad">
-                                            <label for="floatingInput" class="ms-2">Edad</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).
-                                                        Menores a 7 no pueden registrarse.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos especial my-2" id="fecha_nac">
-                                            <label class="text-start" for="">Fecha de Nacimiento</label>
-                                            <input type="date" name="fecha_nac" class="form-control p-3 date_input"
-                                                   required="">
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No se aceptan menores a 7 años.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="cedula">
-                                            <input type="text" class="form-control" id="floatingInput" name="cedula"
-                                                   autocomplete="cedula" required=""
-                                                   placeholder="Cedula" maxlength="10">
-                                            <label for="floatingInput">Cédula</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="colegio">
-                                            <input type="text" class="form-control" id="floatingInput" name="colegio"
-                                                   autocomplete="colegio"
-                                                   maxlength="50" required="" placeholder="colegio">
-                                            <label for="floatingInput">Unidad Educativa</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Mínimo debe tener 4 caracteres, pueden ser
-                                                        letras, números o estos simbolos(/-+).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos especial my-2" id="anio_lectivo">
-                                            <select class="form-select" name="anio_lectivo"
-                                                    aria-label="Default select example"
-                                                    style="height: 58px">
-                                                <option value="0" selected disabled>Curso</option>
-                                                <option value="4">4to - Básica Elemental</option>
-                                                <option value="5">5to - Básica Media</option>
-                                                <option value="6">6to - Básica Media</option>
-                                                <option value="7">7mo - Básica Media</option>
-                                                <option value="8">8vo - Básica Superior</option>
-                                                <option value="9">9no - Básica Superior</option>
-                                                <option value="10">10mo - Básica Superior</option>
-                                                <option value="1">1ro - Bachillerato</option>
-                                                <option value="2">2do - Bachillerato</option>
-                                                <option value="3">3ro - Bachillerato</option>
-                                            </select>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Elija una opción.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="mostrando item fe_bautizo_pregunta">
-                                <div class="col py-1 text-center"><h4>¿Se ha bautizado la persona a inscribir?</h4>
-                                </div>
-                                <div class="datos especial" id="fe_bautizo_pregunta">
-                                    <div class="buttons_check">
-                                        <button type="button" class="btn btn-outline-success btn_yes">Sí</button>
-                                        <button type="button" class="btn btn-outline-danger btn_no">No</button>
-                                    </div>
-                                    <div class="aviso">
-                                        Los datos de la "Fe de Bautismo" no son obligatorios, si no se acuerda de
-                                        alguno, puede dejar el campo vacío.
-                                    </div>
-                                    <div class="aviso2">
-                                        Por favor haga click en "sí" o "no"
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="item fe_bautizo">
-                                <div class="col text-center mb-2 fe_bautizo_pregunta2">
-                                    ¿Se ha bautizado la persona a inscribir?
-                                    <div class="buttons_check2">
-                                        <button type="button" class="btn btn-outline-success btn_yes2">Sí</button>
-                                        <button type="button" class="btn btn-outline-danger btn_no2">No</button>
-                                    </div>
-                                </div>
-                                <div class="col py-1 text-center mb-2">
-                                    <h5>
-                                        <i class="fa-solid fa-circle-info"></i> Fe de Bautismo
-                                        <div class="message_aviso">
-                                            Los datos de la "Fe de Bautismo" no son obligatorios, si no se acuerda de
-                                            alguno, puede dejar el campo vacío.
-                                        </div>
-                                    </h5>
-                                </div>
-
-                                <div class="row row-cols-1 row-cols-lg-2">
-
-                                    <div class="col">
-                                        <div class="datos especial my-2" id="provincia">
-                                            <select class="form-select provincia" aria-label="Default select example"
-                                                    style="height: 58px" name="provincia">
-                                                <option value="0" selected disabled>Escoja la Provincia</option>
-                                                <option value="Non">No recuerdo</option>
-                                                {% for provincia in provincias %}
-                                                    <option value="{{ provincia.id }}">{{ provincia.nombre.title }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Elija una opción.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos especial my-2" id="canton">
-                                            <select class="form-select canton" disabled
-                                                    aria-label="Default select example"
-                                                    style="height: 58px" name="canton">
-                                                <option value="0" selected disabled>Escoja el Cantón</option>
-                                                <option value="None">No recuerdo</option>
-                                            </select>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Elija una opción.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="parroquia">
-                                            <input type="text" class="form-control" id="floatingInput" name="parroquia"
-                                                   autocomplete="parroquia"
-                                                   maxlength="150" placeholder="parroquia">
-                                            <label for="floatingInput">Parroquia de bautizo</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Mínimo debe tener 4 letras.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    {##}
-                                    {#                                    <div class="col">#}
-                                    {#                                        <div class="form-floating my-2" id="observ">#}
-                                    {#                                            <input type="text" class="form-control" id="floatingInput" name="observ">#}
-                                    {#                                            <label for="floatingInput">Observaciones</label>#}
-                                    {#                                        </div>#}
-                                    {#                                    </div>#}
-
-
-                                    <div class="col">
-                                        <div class="datos especial my-2" id="fecha_Baut">
-                                            <label class="text-start" for="">Fecha de Bautizo</label>
-                                            <input type="date" name="fecha_Baut" class="form-control p-3 date_input"
-                                                   id="fecha_Baut">
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">La fecha está incompleta.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col col-lg-4">
-                                        <div class="datos form-floating my-2" id="tomo">
-                                            <input type="text" class="form-control" id="floatingInput" name="tomo"
-                                                   autocomplete="tomo" style="text-transform:uppercase;"
-                                                   onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                                   maxlength="50" placeholder="tomo">
-                                            <label for="floatingInput" class="ms-2">Tomo</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9) o
-                                                        números romanos(I V X L C D M).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-4">
-                                        <div class="datos form-floating my-2" id="pagina">
-                                            <input type="text"
-                                                   class="form-control" id="floatingInput" name="pagina"
-                                                   placeholder="pagina">
-                                            <label for="floatingInput" class="ms-2">Página</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-4">
-                                        <div class="datos form-floating my-2" id="acta">
-                                            <input type="text"
-                                                   class="form-control" id="floatingInput" name="acta"
-                                                   placeholder="acta">
-                                            <label for="floatingInput" class="ms-2">Acta</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-4 d-flex align-items-center justify-content-center">
-                                        <label>Registro Parroquial</label>
-                                    </div>
-
-                                    <div class="col-8 d-flex align-items-center">
-                                        <div class="datos form-control my-2" id="archivosubido">
-                                            <input type="file" name="archivosubido">
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="item padres">
-                                <div class="col py-1 text-center mb-2"><h5>Datos de los Padres</h5></div>
-
-                                <div class="row row-cols-1 row-cols-lg-2">
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="nom_papa">
-                                            <input type="text" class="form-control" id="floatingInput"
-                                                   name="nom_papa"
-                                                   autocomplete="nom_papa"
-                                                   maxlength="75" required="" placeholder="nom_papa">
-                                            <label for="floatingInput">Nombres del padre</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No debe contener números y símbolos, sólo
-                                                        letras(a/Z).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="ape_papa">
-                                            <input type="text" class="form-control" id="floatingInput"
-                                                   name="ape_papa"
-                                                   autocomplete="ape_papa"
-                                                   maxlength="75" required="" placeholder="ape_papa">
-                                            <label for="floatingInput">Apellidos del padre</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No debe contener números y símbolos, sólo
-                                                        letras(a/Z).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-3 num">
-                                        <div class="datos form-floating my-2" id="ced_papa">
-                                            <input type="text"
-                                                   class="form-control" id="floatingInput" name="ced_papa"
-                                                   autocomplete="ced_papa"
-                                                   maxlength="10" required="" placeholder="ced_papa">
-                                            <label for="floatingInput" class="ms-2">Cédula</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-3 num">
-                                        <div class="datos form-floating my-2" id="cel_papa">
-                                            <input type="text"
-                                                   class="form-control" id="floatingInput" name="cel_papa"
-                                                   autocomplete="cel_papa"
-                                                   maxlength="10" required="" placeholder="cel_papa">
-                                            <label for="floatingInput" class="ms-2">Celular</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9) y
-                                                        que comience con 09.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-4">
-                                        <div class="datos especial my-2" id="estado_civ_pa">
-                                            <select class="form-select"
-                                                    aria-label="Default select example"
-                                                    style="height: 58px" name="estado_civ_pa">
-                                                <option value="0" selected disabled>estado civil</option>
-                                                <option value="1">Soltero</option>
-                                                <option value="2">Casado</option>
-                                                <option value="3">Divorciado</option>
-                                                <option value="4">Viudo</option>
-                                                <option value="5">Unión de hecho</option>
-                                            </select>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Elija una opción.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-2 d-flex align-items-center" style="">
-                                        <div class="form-check" id="radios">
-                                            <input class="form-check-input" type="radio" name="radios"
-                                                   id="check_papa" value="option1" checked>
-                                            <label class="form-check-label" for="check_papa">
-                                                Tutor
-                                            </label>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="nom_mama">
-                                            <input type="text" class="form-control" id="floatingInput"
-                                                   name="nom_mama"
-                                                   autocomplete="nom_mama"
-                                                   maxlength="75" required="" placeholder="nom_mama">
-                                            <label for="floatingInput">Nombres de la madre</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No debe contener números y símbolos, sólo
-                                                        letras(a/Z).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="ape_mama">
-                                            <input type="text" class="form-control" id="floatingInput"
-                                                   name="ape_mama"
-                                                   autocomplete="ape_mama"
-                                                   maxlength="75" required="" placeholder="ape_mama">
-                                            <label for="floatingInput">Apellidos de la madre</label>
-
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No debe contener números y símbolos, sólo
-                                                        letras(a/Z).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-3 num">
-                                        <div class="datos form-floating my-2" id="ced_mama">
-                                            <input type="text"
-                                                   class="form-control" id="floatingInput" name="ced_mama"
-                                                   autocomplete="ced_mama"
-                                                   maxlength="10" required="" placeholder="ced_mama">
-                                            <label for="floatingInput" class="ms-2">Cédula</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-3 num">
-                                        <div class="datos form-floating my-2" id="cel_mama">
-                                            <input type="text"
-                                                   class="form-control" id="floatingInput" name="cel_mama"
-                                                   autocomplete="cel_mama"
-                                                   maxlength="10" required="" placeholder="cel_mama">
-                                            <label for="floatingInput" class="ms-2">Celular</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Solo se acepta la entrada de números(0/9) y
-                                                        que comience con 09.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-4">
-                                        <div class="datos especial my-2" id="estado_civ_ma">
-                                            <select class="form-select"
-                                                    aria-label="Default select example"
-                                                    style="height: 58px" name="estado_civ_ma">
-                                                <option value="0" selected disabled>estado civil</option>
-                                                <option value="1">Soltera</option>
-                                                <option value="2">Casada</option>
-                                                <option value="3">Divorciada</option>
-                                                <option value="4">Viuda</option>
-                                                <option value="5">Unión de hecho</option>
-                                            </select>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Elija una opción.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col col-lg-2 d-flex align-items-center" style="">
-                                        <div class="form-check" id="radios">
-                                            <input class="form-check-input" type="radio" name="radios"
-                                                   id="check_mama" value="option2">
-                                            <label class="form-check-label" for="check_mama">
-                                                Tutor
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="item num_hijos">
-                                <div class="col py-1 text-center mb-2"><h5>¿Cuántos hijos tiene?</h5></div>
-                                <div class="col">
-                                    <div class="datos especial" id="num_hijos">
-                                        <input type="text"
-                                                {#                                           ondrop="return false;" onpaste="return false;"#}
-                                                {#                                           onkeypress="return event.charCode>=48 && event.charCode<=57"#}
-                                                {#                                           required#}
-                                               class="form-control text-center" name="num_hijos"
-                                               maxlength="2" required="" style="height: 58px">
+                                <div class="col col-lg-4">
+                                    <div class="datos form-floating my-2" id="nombres">
+                                        <input type="text" class="form-control" id="floatingInput" name="nombres"
+                                               autocomplete="nombres"
+                                               maxlength="75" required="" placeholder="Nombres">
+                                        <label for="floatingInput">Nombres</label>
                                         <div class="form-error">
                                             <i class="fas fa-times-circle"></i>
                                             <div class="message">
-                                                <div class="form_info">Solo se acepta la entrada de números(0/9).</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="item nivel_catequista">
-                                <div class="col py-1 text-center mb-2"><h5>Nivel de catequésis</h5></div>
-                                <div class="row rows-col-1 rows-col-lg-2">
-                                    <div class="col">
-                                        <div class="datos especial my-2" id="nivel_catequista">
-                                            <select class="form-select" name="nivel_catequista"
-                                                    aria-label="Default select example"
-                                                    style="height: 58px">
-                                                <option value="0" selected disabled>Nivel de catequesis</option>
-                                                <option value="Non">No me acuerdo</option>
-                                                <option value="1">Iniciación</option>
-                                                <option value="2">Reconciliación</option>
-                                                <option value="3">Primera Comunión</option>
-                                                <option value="4">Año Bíblico</option>
-                                                <option value="5">I Confirmación</option>
-                                                <option value="6">II Confirmación</option>
-                                            </select>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">Elija una opción.</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="datos form-floating my-2" id="catequista">
-                                            <input type="text" class="form-control" id="floatingInput" name="catequista"
-                                                   maxlength="50" required="" placeholder="catequista">
-                                            <label for="floatingInput" style="font-size: 13px">Nombre del
-                                                Catequista(opcional)</label>
-                                            <div class="form-error">
-                                                <i class="fas fa-times-circle"></i>
-                                                <div class="message">
-                                                    <div class="form_info">No debe contener números o símbolos, sólo
-                                                        letras(a/Z).
-                                                        Mínimo debe tener 4 letras.
-                                                    </div>
+                                                <div class="form_info">No debe contener números y símbolos, sólo
+                                                    letras(a/Z).
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col col-lg-4">
+                                    <div class="datos form-floating my-2" id="apellidos">
+                                        <input type="text" class="form-control" id="floatingInput" name="apellidos"
+                                               autocomplete="apellidos"
+                                               maxlength="75" required="" placeholder="Apellidos">
+                                        <label for="floatingInput">Apellidos</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">No debe contener números y símbolos, sólo
+                                                    letras(a/Z).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-4">
+                                    <div class="datos form-floating my-2" id="edad">
+                                        <input type="text"
+                                               class="form-control" id="floatingInput" name="edad"
+                                               maxlength="2" required="" placeholder="edad">
+                                        <label for="floatingInput" class="ms-2">Edad</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9).
+                                                    Menores a 7 no pueden registrarse.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos especial my-2" id="fecha_nac">
+                                        <label class="text-start" for="">Fecha de Nacimiento</label>
+                                        <input type="date" name="fecha_nac" class="form-control p-3 date_input"
+                                               required="">
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">No se aceptan menores a 7 años.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="cedula">
+                                        <input type="text" class="form-control" id="floatingInput" name="cedula"
+                                               autocomplete="cedula" required=""
+                                               placeholder="Cedula" maxlength="10">
+                                        <label for="floatingInput">Cédula</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="colegio">
+                                        <input type="text" class="form-control" id="floatingInput" name="colegio"
+                                               autocomplete="colegio"
+                                               maxlength="50" required="" placeholder="colegio">
+                                        <label for="floatingInput">Unidad Educativa</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Mínimo debe tener 4 caracteres, pueden ser
+                                                    letras, números o estos simbolos(/-+).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos especial my-2" id="anio_lectivo">
+                                        <select class="form-select" name="anio_lectivo"
+                                                aria-label="Default select example"
+                                                style="height: 58px">
+                                            <option value="0" selected disabled>Curso</option>
+                                            <option value="4">4to - Básica Elemental</option>
+                                            <option value="5">5to - Básica Media</option>
+                                            <option value="6">6to - Básica Media</option>
+                                            <option value="7">7mo - Básica Media</option>
+                                            <option value="8">8vo - Básica Superior</option>
+                                            <option value="9">9no - Básica Superior</option>
+                                            <option value="10">10mo - Básica Superior</option>
+                                            <option value="1">1ro - Bachillerato</option>
+                                            <option value="2">2do - Bachillerato</option>
+                                            <option value="3">3ro - Bachillerato</option>
+                                        </select>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Elija una opción.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                        </div>
-
-
-                        <div class="buttons">
-                            <button class="btn back" type="button" disabled>Atrás</button>
-                            <button class="btn next" type="button">Siguiente</button>
-                            <button class="btn register" type="submit" disabled>Registrar</button>
                         </div>
 
                     </div>
-                </form>
+                </div>
             </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Fe de Bautismo
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <div class="item fe_bautizo">
+                            <div class="col text-center mb-2 fe_bautizo_pregunta2">
+                                ¿Se ha bautizado la persona a inscribir?
+                                <div class="buttons_check2">
+                                    <button type="button" class="btn btn-outline-success btn_yes2">Sí</button>
+                                    <button type="button" class="btn btn-outline-danger btn_no2">No</button>
+                                </div>
+                            </div>
+                            <div class="col py-1 text-center mb-2">
+                                <h5>
+                                    <i class="fa-solid fa-circle-info"></i> Fe de Bautismo
+                                    <div class="message_aviso">
+                                        Los datos de la "Fe de Bautismo" no son obligatorios, si no se acuerda de
+                                        alguno, puede dejar el campo vacío.
+                                    </div>
+                                </h5>
+                            </div>
+
+                            <div class="row row-cols-1 row-cols-lg-2">
+
+                                <div class="col">
+                                    <div class="datos especial my-2" id="provincia">
+                                        <select class="form-select provincia" aria-label="Default select example"
+                                                style="height: 58px" name="provincia">
+                                            <option value="0" selected disabled>Escoja la Provincia</option>
+                                            <option value="Non">No recuerdo</option>
+                                            {% for provincia in provincias %}
+                                                <option value="{{ provincia.id }}">{{ provincia.nombre.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Elija una opción.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos especial my-2" id="canton">
+                                        <select class="form-select canton" disabled
+                                                aria-label="Default select example"
+                                                style="height: 58px" name="canton">
+                                            <option value="0" selected disabled>Escoja el Cantón</option>
+                                            <option value="None">No recuerdo</option>
+                                        </select>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Elija una opción.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="parroquia">
+                                        <input type="text" class="form-control" id="floatingInput" name="parroquia"
+                                               autocomplete="parroquia"
+                                               maxlength="150" placeholder="parroquia">
+                                        <label for="floatingInput">Parroquia de bautizo</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Mínimo debe tener 4 letras.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {##}
+                                {#                                    <div class="col">#}
+                                {#                                        <div class="form-floating my-2" id="observ">#}
+                                {#                                            <input type="text" class="form-control" id="floatingInput" name="observ">#}
+                                {#                                            <label for="floatingInput">Observaciones</label>#}
+                                {#                                        </div>#}
+                                {#                                    </div>#}
+
+
+                                <div class="col">
+                                    <div class="datos especial my-2" id="fecha_Baut">
+                                        <label class="text-start" for="">Fecha de Bautizo</label>
+                                        <input type="date" name="fecha_Baut" class="form-control p-3 date_input"
+                                               id="fecha_Baut">
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">La fecha está incompleta.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-lg-4">
+                                    <div class="datos form-floating my-2" id="tomo">
+                                        <input type="text" class="form-control" id="floatingInput" name="tomo"
+                                               autocomplete="tomo" style="text-transform:uppercase;"
+                                               onkeyup="javascript:this.value=this.value.toUpperCase();"
+                                               maxlength="50" placeholder="tomo">
+                                        <label for="floatingInput" class="ms-2">Tomo</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9) o
+                                                    números romanos(I V X L C D M).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-4">
+                                    <div class="datos form-floating my-2" id="pagina">
+                                        <input type="text"
+                                               class="form-control" id="floatingInput" name="pagina"
+                                               placeholder="pagina">
+                                        <label for="floatingInput" class="ms-2">Página</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-4">
+                                    <div class="datos form-floating my-2" id="acta">
+                                        <input type="text"
+                                               class="form-control" id="floatingInput" name="acta"
+                                               placeholder="acta">
+                                        <label for="floatingInput" class="ms-2">Acta</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-4 d-flex align-items-center justify-content-center">
+                                    <label>Registro Parroquial</label>
+                                </div>
+
+                                <div class="col-8 d-flex align-items-center">
+                                    <div class="datos form-control my-2" id="archivosubido">
+                                        <input type="file" name="archivosubido">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Datos de los Padres
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+
+                        <div class="item padres">
+                            <div class="col py-1 text-center mb-2"><h5>Datos de los Padres</h5></div>
+
+                            <div class="row row-cols-1 row-cols-lg-2">
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="nom_papa">
+                                        <input type="text" class="form-control" id="floatingInput"
+                                               name="nom_papa"
+                                               autocomplete="nom_papa"
+                                               maxlength="75" required="" placeholder="nom_papa">
+                                        <label for="floatingInput">Nombres del padre</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">No debe contener números y símbolos, sólo
+                                                    letras(a/Z).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="ape_papa">
+                                        <input type="text" class="form-control" id="floatingInput"
+                                               name="ape_papa"
+                                               autocomplete="ape_papa"
+                                               maxlength="75" required="" placeholder="ape_papa">
+                                        <label for="floatingInput">Apellidos del padre</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">No debe contener números y símbolos, sólo
+                                                    letras(a/Z).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-3 num">
+                                    <div class="datos form-floating my-2" id="ced_papa">
+                                        <input type="text"
+                                               class="form-control" id="floatingInput" name="ced_papa"
+                                               autocomplete="ced_papa"
+                                               maxlength="10" required="" placeholder="ced_papa">
+                                        <label for="floatingInput" class="ms-2">Cédula</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-3 num">
+                                    <div class="datos form-floating my-2" id="cel_papa">
+                                        <input type="text"
+                                               class="form-control" id="floatingInput" name="cel_papa"
+                                               autocomplete="cel_papa"
+                                               maxlength="10" required="" placeholder="cel_papa">
+                                        <label for="floatingInput" class="ms-2">Celular</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9) y
+                                                    que comience con 09.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-4">
+                                    <div class="datos especial my-2" id="estado_civ_pa">
+                                        <select class="form-select"
+                                                aria-label="Default select example"
+                                                style="height: 58px" name="estado_civ_pa">
+                                            <option value="0" selected disabled>estado civil</option>
+                                            <option value="1">Soltero</option>
+                                            <option value="2">Casado</option>
+                                            <option value="3">Divorciado</option>
+                                            <option value="4">Viudo</option>
+                                            <option value="5">Unión de hecho</option>
+                                        </select>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Elija una opción.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-2 d-flex align-items-center" style="">
+                                    <div class="form-check" id="radios">
+                                        <input class="form-check-input" type="radio" name="radios"
+                                               id="check_papa" value="option1" checked>
+                                        <label class="form-check-label" for="check_papa">
+                                            Tutor
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="nom_mama">
+                                        <input type="text" class="form-control" id="floatingInput"
+                                               name="nom_mama"
+                                               autocomplete="nom_mama"
+                                               maxlength="75" required="" placeholder="nom_mama">
+                                        <label for="floatingInput">Nombres de la madre</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">No debe contener números y símbolos, sólo
+                                                    letras(a/Z).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="ape_mama">
+                                        <input type="text" class="form-control" id="floatingInput"
+                                               name="ape_mama"
+                                               autocomplete="ape_mama"
+                                               maxlength="75" required="" placeholder="ape_mama">
+                                        <label for="floatingInput">Apellidos de la madre</label>
+
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">No debe contener números y símbolos, sólo
+                                                    letras(a/Z).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-3 num">
+                                    <div class="datos form-floating my-2" id="ced_mama">
+                                        <input type="text"
+                                               class="form-control" id="floatingInput" name="ced_mama"
+                                               autocomplete="ced_mama"
+                                               maxlength="10" required="" placeholder="ced_mama">
+                                        <label for="floatingInput" class="ms-2">Cédula</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9).
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-3 num">
+                                    <div class="datos form-floating my-2" id="cel_mama">
+                                        <input type="text"
+                                               class="form-control" id="floatingInput" name="cel_mama"
+                                               autocomplete="cel_mama"
+                                               maxlength="10" required="" placeholder="cel_mama">
+                                        <label for="floatingInput" class="ms-2">Celular</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Solo se acepta la entrada de números(0/9) y
+                                                    que comience con 09.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-4">
+                                    <div class="datos especial my-2" id="estado_civ_ma">
+                                        <select class="form-select"
+                                                aria-label="Default select example"
+                                                style="height: 58px" name="estado_civ_ma">
+                                            <option value="0" selected disabled>estado civil</option>
+                                            <option value="1">Soltera</option>
+                                            <option value="2">Casada</option>
+                                            <option value="3">Divorciada</option>
+                                            <option value="4">Viuda</option>
+                                            <option value="5">Unión de hecho</option>
+                                        </select>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Elija una opción.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-lg-2 d-flex align-items-center" style="">
+                                    <div class="form-check" id="radios">
+                                        <input class="form-check-input" type="radio" name="radios"
+                                               id="check_mama" value="option2">
+                                        <label class="form-check-label" for="check_mama">
+                                            Tutor
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        ¿Cuántos hijos tiene?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <div class="item num_hijos">
+                            <div class="col py-1 text-center mb-2"><h5>¿Cuántos hijos tiene?</h5></div>
+                            <div class="col">
+                                <div class="datos especial" id="num_hijos">
+                                    <input type="text"
+                                            {#                                           ondrop="return false;" onpaste="return false;"#}
+                                            {#                                           onkeypress="return event.charCode>=48 && event.charCode<=57"#}
+                                            {#                                           required#}
+                                           class="form-control text-center" name="num_hijos"
+                                           maxlength="2" required="" style="height: 58px">
+                                    <div class="form-error">
+                                        <i class="fas fa-times-circle"></i>
+                                        <div class="message">
+                                            <div class="form_info">Solo se acepta la entrada de números(0/9).</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button text-center collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        Nivel de catequésis
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <div class="item nivel_catequista">
+                            <div class="col py-1 text-center mb-2"><h5>Nivel de catequésis</h5></div>
+                            <div class="row rows-col-1 rows-col-lg-2">
+                                <div class="col">
+                                    <div class="datos especial my-2" id="nivel_catequista">
+                                        <select class="form-select" name="nivel_catequista"
+                                                aria-label="Default select example"
+                                                style="height: 58px">
+                                            <option value="0" selected disabled>Nivel de catequesis</option>
+                                            <option value="Non">No me acuerdo</option>
+                                            <option value="1">Iniciación</option>
+                                            <option value="2">Reconciliación</option>
+                                            <option value="3">Primera Comunión</option>
+                                            <option value="4">Año Bíblico</option>
+                                            <option value="5">I Confirmación</option>
+                                            <option value="6">II Confirmación</option>
+                                        </select>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">Elija una opción.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="datos form-floating my-2" id="catequista">
+                                        <input type="text" class="form-control" id="floatingInput" name="catequista"
+                                               maxlength="50" required="" placeholder="catequista">
+                                        <label for="floatingInput" style="font-size: 13px">Nombre del
+                                            Catequista(opcional)</label>
+                                        <div class="form-error">
+                                            <i class="fas fa-times-circle"></i>
+                                            <div class="message">
+                                                <div class="form_info">No debe contener números o símbolos, sólo
+                                                    letras(a/Z).
+                                                    Mínimo debe tener 4 letras.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
         </div>
+
+        {#        <div class="row row-cols-1 row-cols-lg-2 g-2 g-lg-3 align-items-center">#}
+        {##}
+        {#            <div class="col">#}
+        {#                <img src="{% static 'img/j.png' %}" class="rounded img-fluid" alt="ImagenSanMartinParres"#}
+        {#                     style="width: 65%">#}
+        {# Aquí colocaremos el alerts #}
+        {#                <div class="pe-5 col-6" id="liveAlertPlaceholder"></div>#}
+        {#            </div>#}
+        {##}
+        {#            <div class="col">#}
+        {#                <form action="." method="POST" id="formulario" class="d-flex justify-content-center"#}
+        {#                      enctype="multipart/form-data">#}
+        {#                    {% csrf_token %}#}
+        {#                    <div class="carrusel">#}
+        {#                        <div class="col py-1 text-center"><h3>FORMULARIO DE INSCRIPCIÓN</h3></div>#}
+        {#                        <div class="progress">#}
+        {#                            <div class="progress-bar bg-success" role="progressbar" aria-label="Success example"#}
+        {#                                 style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>#}
+        {#                        </div>#}
+        {##}
+        {#                        <div class="border border-1"></div>#}
+        {#                        <div class="grande">#}
+        {##}
+        {#                            <div class="mostrando item niños">#}
+        {#                                <div class="col py-1 text-center mb-2"><h5>Datos del Niño</h5></div>#}
+        {#                                <div class="row row-cols-1 row-cols-lg-2">#}
+        {##}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos form-floating my-2" id="nombres">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="nombres"#}
+        {#                                                   autocomplete="nombres"#}
+        {#                                                   maxlength="75" required="" placeholder="Nombres">#}
+        {#                                            <label for="floatingInput">Nombres</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No debe contener números y símbolos, sólo#}
+        {#                                                        letras(a/Z).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos form-floating my-2" id="apellidos">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="apellidos"#}
+        {#                                                   autocomplete="apellidos"#}
+        {#                                                   maxlength="75" required="" placeholder="Apellidos">#}
+        {#                                            <label for="floatingInput">Apellidos</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No debe contener números y símbolos, sólo#}
+        {#                                                        letras(a/Z).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos form-floating my-2" id="edad">#}
+        {#                                            <input type="text"#}
+        {#                                                   class="form-control" id="floatingInput" name="edad"#}
+        {#                                                   maxlength="2" required="" placeholder="edad">#}
+        {#                                            <label for="floatingInput" class="ms-2">Edad</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).#}
+        {#                                                        Menores a 7 no pueden registrarse.#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos especial my-2" id="fecha_nac">#}
+        {#                                            <label class="text-start" for="">Fecha de Nacimiento</label>#}
+        {#                                            <input type="date" name="fecha_nac" class="form-control p-3 date_input"#}
+        {#                                                   required="">#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No se aceptan menores a 7 años.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="cedula">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="cedula"#}
+        {#                                                   autocomplete="cedula" required=""#}
+        {#                                                   placeholder="Cedula" maxlength="10">#}
+        {#                                            <label for="floatingInput">Cédula</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="colegio">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="colegio"#}
+        {#                                                   autocomplete="colegio"#}
+        {#                                                   maxlength="50" required="" placeholder="colegio">#}
+        {#                                            <label for="floatingInput">Unidad Educativa</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Mínimo debe tener 4 caracteres, pueden ser#}
+        {#                                                        letras, números o estos simbolos(/-+).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos especial my-2" id="anio_lectivo">#}
+        {#                                            <select class="form-select" name="anio_lectivo"#}
+        {#                                                    aria-label="Default select example"#}
+        {#                                                    style="height: 58px">#}
+        {#                                                <option value="0" selected disabled>Curso</option>#}
+        {#                                                <option value="4">4to - Básica Elemental</option>#}
+        {#                                                <option value="5">5to - Básica Media</option>#}
+        {#                                                <option value="6">6to - Básica Media</option>#}
+        {#                                                <option value="7">7mo - Básica Media</option>#}
+        {#                                                <option value="8">8vo - Básica Superior</option>#}
+        {#                                                <option value="9">9no - Básica Superior</option>#}
+        {#                                                <option value="10">10mo - Básica Superior</option>#}
+        {#                                                <option value="1">1ro - Bachillerato</option>#}
+        {#                                                <option value="2">2do - Bachillerato</option>#}
+        {#                                                <option value="3">3ro - Bachillerato</option>#}
+        {#                                            </select>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Elija una opción.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {##}
+        {##}
+        {#                            <div class="mostrando item fe_bautizo_pregunta">#}
+        {#                                <div class="col py-1 text-center"><h4>¿Se ha bautizado la persona a inscribir?</h4>#}
+        {#                                </div>#}
+        {#                                <div class="datos especial" id="fe_bautizo_pregunta">#}
+        {#                                    <div class="buttons_check">#}
+        {#                                        <button type="button" class="btn btn-outline-success btn_yes">Sí</button>#}
+        {#                                        <button type="button" class="btn btn-outline-danger btn_no">No</button>#}
+        {#                                    </div>#}
+        {#                                    <div class="aviso">#}
+        {#                                        Los datos de la "Fe de Bautismo" no son obligatorios, si no se acuerda de#}
+        {#                                        alguno, puede dejar el campo vacío.#}
+        {#                                    </div>#}
+        {#                                    <div class="aviso2">#}
+        {#                                        Por favor haga click en "sí" o "no"#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {##}
+        {##}
+        {#                            <div class="item fe_bautizo">#}
+        {#                                <div class="col text-center mb-2 fe_bautizo_pregunta2">#}
+        {#                                    ¿Se ha bautizado la persona a inscribir?#}
+        {#                                    <div class="buttons_check2">#}
+        {#                                        <button type="button" class="btn btn-outline-success btn_yes2">Sí</button>#}
+        {#                                        <button type="button" class="btn btn-outline-danger btn_no2">No</button>#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                                <div class="col py-1 text-center mb-2">#}
+        {#                                    <h5>#}
+        {#                                        <i class="fa-solid fa-circle-info"></i> Fe de Bautismo#}
+        {#                                        <div class="message_aviso">#}
+        {#                                            Los datos de la "Fe de Bautismo" no son obligatorios, si no se acuerda de#}
+        {#                                            alguno, puede dejar el campo vacío.#}
+        {#                                        </div>#}
+        {#                                    </h5>#}
+        {#                                </div>#}
+        {##}
+        {#                                <div class="row row-cols-1 row-cols-lg-2">#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos especial my-2" id="provincia">#}
+        {#                                            <select class="form-select provincia" aria-label="Default select example"#}
+        {#                                                    style="height: 58px" name="provincia">#}
+        {#                                                <option value="0" selected disabled>Escoja la Provincia</option>#}
+        {#                                                <option value="Non">No recuerdo</option>#}
+        {#                                                {% for provincia in provincias %}#}
+        {#                                                    <option value="{{ provincia.id }}">{{ provincia.nombre.title }}</option>#}
+        {#                                                {% endfor %}#}
+        {#                                            </select>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Elija una opción.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos especial my-2" id="canton">#}
+        {#                                            <select class="form-select canton" disabled#}
+        {#                                                    aria-label="Default select example"#}
+        {#                                                    style="height: 58px" name="canton">#}
+        {#                                                <option value="0" selected disabled>Escoja el Cantón</option>#}
+        {#                                                <option value="None">No recuerdo</option>#}
+        {#                                            </select>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Elija una opción.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="parroquia">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="parroquia"#}
+        {#                                                   autocomplete="parroquia"#}
+        {#                                                   maxlength="150" placeholder="parroquia">#}
+        {#                                            <label for="floatingInput">Parroquia de bautizo</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Mínimo debe tener 4 letras.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {##}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="form-floating my-2" id="observ">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="observ">#}
+        {#                                            <label for="floatingInput">Observaciones</label>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos especial my-2" id="fecha_Baut">#}
+        {#                                            <label class="text-start" for="">Fecha de Bautizo</label>#}
+        {#                                            <input type="date" name="fecha_Baut" class="form-control p-3 date_input"#}
+        {#                                                   id="fecha_Baut">#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">La fecha está incompleta.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos form-floating my-2" id="tomo">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="tomo"#}
+        {#                                                   autocomplete="tomo" style="text-transform:uppercase;"#}
+        {#                                                   onkeyup="javascript:this.value=this.value.toUpperCase();"#}
+        {#                                                   maxlength="50" placeholder="tomo">#}
+        {#                                            <label for="floatingInput" class="ms-2">Tomo</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9) o#}
+        {#                                                        números romanos(I V X L C D M).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos form-floating my-2" id="pagina">#}
+        {#                                            <input type="text"#}
+        {#                                                   class="form-control" id="floatingInput" name="pagina"#}
+        {#                                                   placeholder="pagina">#}
+        {#                                            <label for="floatingInput" class="ms-2">Página</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos form-floating my-2" id="acta">#}
+        {#                                            <input type="text"#}
+        {#                                                   class="form-control" id="floatingInput" name="acta"#}
+        {#                                                   placeholder="acta">#}
+        {#                                            <label for="floatingInput" class="ms-2">Acta</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {##}
+        {#                                    <div class="col-4 d-flex align-items-center justify-content-center">#}
+        {#                                        <label>Registro Parroquial</label>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col-8 d-flex align-items-center">#}
+        {#                                        <div class="datos form-control my-2" id="archivosubido">#}
+        {#                                            <input type="file" name="archivosubido">#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                </div>#}
+        {##}
+        {#                            </div>#}
+        {##}
+        {##}
+        {#                            <div class="item padres">#}
+        {#                                <div class="col py-1 text-center mb-2"><h5>Datos de los Padres</h5></div>#}
+        {##}
+        {#                                <div class="row row-cols-1 row-cols-lg-2">#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="nom_papa">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput"#}
+        {#                                                   name="nom_papa"#}
+        {#                                                   autocomplete="nom_papa"#}
+        {#                                                   maxlength="75" required="" placeholder="nom_papa">#}
+        {#                                            <label for="floatingInput">Nombres del padre</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No debe contener números y símbolos, sólo#}
+        {#                                                        letras(a/Z).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="ape_papa">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput"#}
+        {#                                                   name="ape_papa"#}
+        {#                                                   autocomplete="ape_papa"#}
+        {#                                                   maxlength="75" required="" placeholder="ape_papa">#}
+        {#                                            <label for="floatingInput">Apellidos del padre</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No debe contener números y símbolos, sólo#}
+        {#                                                        letras(a/Z).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-3 num">#}
+        {#                                        <div class="datos form-floating my-2" id="ced_papa">#}
+        {#                                            <input type="text"#}
+        {#                                                   class="form-control" id="floatingInput" name="ced_papa"#}
+        {#                                                   autocomplete="ced_papa"#}
+        {#                                                   maxlength="10" required="" placeholder="ced_papa">#}
+        {#                                            <label for="floatingInput" class="ms-2">Cédula</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-3 num">#}
+        {#                                        <div class="datos form-floating my-2" id="cel_papa">#}
+        {#                                            <input type="text"#}
+        {#                                                   class="form-control" id="floatingInput" name="cel_papa"#}
+        {#                                                   autocomplete="cel_papa"#}
+        {#                                                   maxlength="10" required="" placeholder="cel_papa">#}
+        {#                                            <label for="floatingInput" class="ms-2">Celular</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9) y#}
+        {#                                                        que comience con 09.#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos especial my-2" id="estado_civ_pa">#}
+        {#                                            <select class="form-select"#}
+        {#                                                    aria-label="Default select example"#}
+        {#                                                    style="height: 58px" name="estado_civ_pa">#}
+        {#                                                <option value="0" selected disabled>estado civil</option>#}
+        {#                                                <option value="1">Soltero</option>#}
+        {#                                                <option value="2">Casado</option>#}
+        {#                                                <option value="3">Divorciado</option>#}
+        {#                                                <option value="4">Viudo</option>#}
+        {#                                                <option value="5">Unión de hecho</option>#}
+        {#                                            </select>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Elija una opción.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-2 d-flex align-items-center" style="">#}
+        {#                                        <div class="form-check" id="radios">#}
+        {#                                            <input class="form-check-input" type="radio" name="radios"#}
+        {#                                                   id="check_papa" value="option1" checked>#}
+        {#                                            <label class="form-check-label" for="check_papa">#}
+        {#                                                Tutor#}
+        {#                                            </label>#}
+        {##}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="nom_mama">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput"#}
+        {#                                                   name="nom_mama"#}
+        {#                                                   autocomplete="nom_mama"#}
+        {#                                                   maxlength="75" required="" placeholder="nom_mama">#}
+        {#                                            <label for="floatingInput">Nombres de la madre</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No debe contener números y símbolos, sólo#}
+        {#                                                        letras(a/Z).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="ape_mama">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput"#}
+        {#                                                   name="ape_mama"#}
+        {#                                                   autocomplete="ape_mama"#}
+        {#                                                   maxlength="75" required="" placeholder="ape_mama">#}
+        {#                                            <label for="floatingInput">Apellidos de la madre</label>#}
+        {##}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No debe contener números y símbolos, sólo#}
+        {#                                                        letras(a/Z).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-3 num">#}
+        {#                                        <div class="datos form-floating my-2" id="ced_mama">#}
+        {#                                            <input type="text"#}
+        {#                                                   class="form-control" id="floatingInput" name="ced_mama"#}
+        {#                                                   autocomplete="ced_mama"#}
+        {#                                                   maxlength="10" required="" placeholder="ced_mama">#}
+        {#                                            <label for="floatingInput" class="ms-2">Cédula</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9).#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-3 num">#}
+        {#                                        <div class="datos form-floating my-2" id="cel_mama">#}
+        {#                                            <input type="text"#}
+        {#                                                   class="form-control" id="floatingInput" name="cel_mama"#}
+        {#                                                   autocomplete="cel_mama"#}
+        {#                                                   maxlength="10" required="" placeholder="cel_mama">#}
+        {#                                            <label for="floatingInput" class="ms-2">Celular</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Solo se acepta la entrada de números(0/9) y#}
+        {#                                                        que comience con 09.#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-4">#}
+        {#                                        <div class="datos especial my-2" id="estado_civ_ma">#}
+        {#                                            <select class="form-select"#}
+        {#                                                    aria-label="Default select example"#}
+        {#                                                    style="height: 58px" name="estado_civ_ma">#}
+        {#                                                <option value="0" selected disabled>estado civil</option>#}
+        {#                                                <option value="1">Soltera</option>#}
+        {#                                                <option value="2">Casada</option>#}
+        {#                                                <option value="3">Divorciada</option>#}
+        {#                                                <option value="4">Viuda</option>#}
+        {#                                                <option value="5">Unión de hecho</option>#}
+        {#                                            </select>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Elija una opción.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col col-lg-2 d-flex align-items-center" style="">#}
+        {#                                        <div class="form-check" id="radios">#}
+        {#                                            <input class="form-check-input" type="radio" name="radios"#}
+        {#                                                   id="check_mama" value="option2">#}
+        {#                                            <label class="form-check-label" for="check_mama">#}
+        {#                                                Tutor#}
+        {#                                            </label>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {##}
+        {#                            </div>#}
+        {##}
+        {#                            <div class="item num_hijos">#}
+        {#                                <div class="col py-1 text-center mb-2"><h5>¿Cuántos hijos tiene?</h5></div>#}
+        {#                                <div class="col">#}
+        {#                                    <div class="datos especial" id="num_hijos">#}
+        {#                                        <input type="text"#}
+        {#                                           ondrop="return false;" onpaste="return false;"#}
+        {#                                           onkeypress="return event.charCode>=48 && event.charCode<=57"#}
+        {#                                           required#}
+        {#                                               class="form-control text-center" name="num_hijos"#}
+        {#                                               maxlength="2" required="" style="height: 58px">#}
+        {#                                        <div class="form-error">#}
+        {#                                            <i class="fas fa-times-circle"></i>#}
+        {#                                            <div class="message">#}
+        {#                                                <div class="form_info">Solo se acepta la entrada de números(0/9).</div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {##}
+        {#                            <div class="item nivel_catequista">#}
+        {#                                <div class="col py-1 text-center mb-2"><h5>Nivel de catequésis</h5></div>#}
+        {#                                <div class="row rows-col-1 rows-col-lg-2">#}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos especial my-2" id="nivel_catequista">#}
+        {#                                            <select class="form-select" name="nivel_catequista"#}
+        {#                                                    aria-label="Default select example"#}
+        {#                                                    style="height: 58px">#}
+        {#                                                <option value="0" selected disabled>Nivel de catequesis</option>#}
+        {#                                                <option value="Non">No me acuerdo</option>#}
+        {#                                                <option value="1">Iniciación</option>#}
+        {#                                                <option value="2">Reconciliación</option>#}
+        {#                                                <option value="3">Primera Comunión</option>#}
+        {#                                                <option value="4">Año Bíblico</option>#}
+        {#                                                <option value="5">I Confirmación</option>#}
+        {#                                                <option value="6">II Confirmación</option>#}
+        {#                                            </select>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">Elija una opción.</div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {##}
+        {#                                    <div class="col">#}
+        {#                                        <div class="datos form-floating my-2" id="catequista">#}
+        {#                                            <input type="text" class="form-control" id="floatingInput" name="catequista"#}
+        {#                                                   maxlength="50" required="" placeholder="catequista">#}
+        {#                                            <label for="floatingInput" style="font-size: 13px">Nombre del#}
+        {#                                                Catequista(opcional)</label>#}
+        {#                                            <div class="form-error">#}
+        {#                                                <i class="fas fa-times-circle"></i>#}
+        {#                                                <div class="message">#}
+        {#                                                    <div class="form_info">No debe contener números o símbolos, sólo#}
+        {#                                                        letras(a/Z).#}
+        {#                                                        Mínimo debe tener 4 letras.#}
+        {#                                                    </div>#}
+        {#                                                </div>#}
+        {#                                            </div>#}
+        {#                                        </div>#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {##}
+        {#                        </div>#}
+        {##}
+        {##}
+        {#                        <div class="buttons">#}
+        {#                            <button class="btn back" type="button" disabled>Atrás</button>#}
+        {#                            <button class="btn next" type="button">Siguiente</button>#}
+        {#                            <button class="btn register" type="submit" disabled>Registrar</button>#}
+        {#                        </div>#}
+        {##}
+        {#                    </div>#}
+        {#                </form>#}
+        {#            </div>#}
+        {#        </div>#}
     </div>
     <script type="text/javascript">
         var listCanton = {{ cantones|safe }};
